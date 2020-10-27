@@ -1,0 +1,46 @@
+
+<ng-container *ngIf="show">
+    <div class="container">
+        <div class="row" style="height: 60vh !important">
+            <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 18rem; background-color: #111;">
+                    <img class="card-img-top" src="{{show.imagen}}" alt="portada show">
+                    <div class="card-body">
+                      <h5 class="card-title">{{show.nombre}}</h5>
+                      <div class="col-lg-12 login-form">
+                        <div class="col-lg-12 login-form">
+                            <form>
+                                <div class="form-group">
+                                    <label class="form-control-label">EMAIL</label>
+                                    <input type="text" class="form-control" [(NgModel)]="model.email" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">CÓDIGO DE ENTRADA</label>
+                                    <input type="text" class="form-control" [(NgModel)]="model.codigo" name="codigo" pTooltip="Código que recibió en su email" tooltipPosition="right">
+                                </div>
+        
+                            </form>
+                                    <div class="d-flex justify-content-center loginbttm">
+                                        <button class="btn rounded btn-outline-primary" (click)="verificarEntrada()">ENTRAR</button>
+                                    </div>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</ng-container>    
+
+
+
+
+    <!-- <div class="d-flex justify-content-center">
+        <div id="rectangle"></div>
+        <div class="embed-responsive embed-responsive-16by9">
+                <iframe id="iframeId"
+                src="https://www.youtube.com/embed/Fm07HWgKT1A?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                allowtransparency
+                ></iframe>
+        </div>
+    </div> -->

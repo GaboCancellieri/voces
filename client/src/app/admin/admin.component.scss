@@ -1,0 +1,24 @@
+@import '~primeicons/primeicons.css';
+
+  div {
+    overflow-x: hidden !important;
+  }
+
+    div.fixed-nav {
+    padding-top: 56px;
+  }
+   
+  .content-wrapper {
+    background-color: white !important;
+    margin-left: 15%;
+    min-height: calc(100vh - 56px - 56px);
+  }
+    
+  .content-wrapper {
+    min-height: calc(100vh - 56px);
+    padding-top: 1rem;
+  }
+
+  .bg-dark {
+    background-color: #111 !important;
+  }

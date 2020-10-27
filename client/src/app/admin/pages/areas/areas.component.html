@@ -1,0 +1,136 @@
+<div class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <app-admin-navigation></app-admin-navigation>
+    <div class="content-wrapper">
+      <div class="container-fluid">
+          <h1 class="titulo-admin"> Áreas</h1>
+          <div class="row" style="margin-bottom: 2%;">
+              <div class="col-6">
+                  <p-card header="Áreas" [style]="{ 'max-height': '450px' }">
+                      <p-header>
+                          <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-primary" [disabled]="edit" (click)="onAdd()">
+                              <i class="fas fa-plus"></i> Agregar
+                          </button>
+                      </p-header>
+                      <p-table [value]="areas" selectionMode="single" [(selection)]="selectedArea" dataKey="_id"
+                      (onRowSelect)="selectArea()">
+                          <ng-template pTemplate="header">
+                              <tr>
+                                  <th *ngFor="let col of cols">
+                                      {{col.header}}
+                                  </th>
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-area>
+                              <tr [pSelectableRow]="area">
+                                  <td *ngFor="let col of cols">
+                                      <div *ngIf="area[col.field] && col.field !== 'imagen'">
+                                          {{area[col.field]}}
+                                      </div>
+                                  </td>
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage">
+                              <tr>
+                                  <td [attr.colspan]="areas.length">
+                                      No hay áreas cargadas
+                                  </td>
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                  </p-card>
+              </div>
+              <div class="col-6">
+                  <p-card [header]="(add) ? 'Agregar Área' : 'Detalle Área'" [style]="{ 'min-height': '450px' }">
+                      <p-header *ngIf="selectedArea && !add">
+                          <ng-container *ngIf="!edit" >
+                              <button type="button" (click)="deleteArea('center')" class="mt-3 mr-3 float-right btn btn-sm btn-danger">
+                                  <i class="fas fa-trash"></i> Eliminar
+                              </button>
+                              <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-warning" (click)="toggleEdit()">
+                                  <i class="fas fa-pencil-alt"></i> Editar
+                              </button>
+                          </ng-container>
+                          <ng-container *ngIf="edit">
+                              <button  type="button" class="mt-3 mr-3 float-right btn btn-sm btn-danger" (click)="toggleEdit()">
+                                  <i class="fas fa-times"></i> Cancelar
+                              </button>
+                              <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-success" (click)="updateArea()">
+                                  <i class="fas fa-check"></i> Confirmar
+                              </button>
+                          </ng-container>
+                      </p-header>
+                      <p-header *ngIf="!selectedArea && add">
+                          <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-danger" (click)="add = false;">
+                              <i class="fas fa-times"></i> Cancelar
+                          </button>
+                          <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-success" (click)="save()"
+                          [disabled]="!model.nombre || !model.descripcion">
+                              <i class="fas fa-check"></i> Confirmar
+                          </button>
+                      </p-header>
+                      <ng-container *ngIf="!selectedArea && !add">
+                          <i class="fas fa-hand-point-left"></i> Elija un área para ver detalle
+                      </ng-container>
+                      <ng-container *ngIf="selectedArea && !add">
+                          <div class="row">
+                              <div class="col">
+                                  <div class="form-group">
+                                      <label>Nombre</label>
+                                      <input type="text" class="form-control" pInputText [(ngModel)]="selectedArea.nombre" name="nombre" [readonly]="!edit"/>
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Descripción</label>
+                                      <textarea class="form-control" type="text" style="height: 24vh !important;" pInputTextArea [(ngModel)]="selectedArea.descripcion" name="descripcion" [readonly]="!edit"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col d-flex justify-content-center">
+                                  <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                                  <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                                  <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                                  <img src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                              </div>
+                          </div>
+                      </ng-container>
+                      <ng-container *ngIf="!selectedArea && add">
+                          <div class="row">
+                              <div class="col">
+                                  <div class="form-group">
+                                      <label>Nombre</label>
+                                      <input type="text" class="form-control" pInputText [(ngModel)]="model.nombre" name="nombre"/>
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Descripción</label>
+                                      <textarea class="form-control" type="text" style="height: 24vh !important;" pInputTextArea [(ngModel)]="model.descripcion" name="descripcion"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col d-flex justify-content-center">
+                                  <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                                  <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                                  <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                                  <img src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                                  style="height: 120px;" alt="">
+                              </div>
+                          </div>
+                      </ng-container>
+                  </p-card>
+              </div>
+          </div>        
+      </div>
+    </div>
+</div>
+
+<p-toast position="top-right" key="tr" [style]="{ 'margin-top': '32px'}"></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"
+acceptLabel="Eliminar" rejectLabel="Cancelar"></p-confirmDialog>

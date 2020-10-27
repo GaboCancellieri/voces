@@ -1,0 +1,19 @@
+.carousel {
+    padding: 10%;
+    background-image: url(../../../assets/img/theater002.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.carousel-item img {
+    border-radius: 10%;
+}
+
+.carousel-item .active .carousel-item-left img {
+    border-radius: 10%;
+}
+
+.carousel-item .carousel-item-next .carousel-item-left img {
+    border-radius: 10%;
+}

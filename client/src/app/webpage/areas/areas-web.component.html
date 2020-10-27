@@ -1,0 +1,31 @@
+<app-menu-web></app-menu-web>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="titulo">
+            ÁREAS
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="card" style="width: 30rem; height: fit-content; margin: 2%;" *ngFor="let area of areas">
+            <div class="card-body">
+                <h5 class="card-title">{{ area.nombre }}</h5>
+                <p class="card-text">{{ area.descripcion }}</p>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                        style="width: 7vw;" alt="">
+                        <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                        style="width: 7vw;" alt="">
+                        <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                        style="width: 7vw;" alt="">
+                        <img src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                        style="width: 7vw;" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="contacto">
+    <app-footer-web></app-footer-web>
+</a>

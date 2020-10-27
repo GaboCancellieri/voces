@@ -1,0 +1,95 @@
+<div class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <app-admin-navigation></app-admin-navigation>
+    <div class="content-wrapper">
+      <div class="container-fluid">
+        <ng-container *ngIf="show">
+          <h1 class="titulo-admin">{{show.nombre}}</h1>
+          <div class="p-grid">
+            <div class="p-col-6">
+                <p-card header="Detalle">
+                    <p-header>
+                      <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-light" 
+                      [disabled]="edit" (click)="onCancel()">
+                      <i class="fas fa-times"></i></button>
+                      <ng-container *ngIf="!edit">
+                        <button (click)="toggleEdit(true)" type="button" class="mt-3 mr-3 float-right btn btn-sm btn-warning">
+                          <i class="fas fa-pencil-alt"></i></button>
+                      </ng-container>
+                      <ng-container *ngIf="edit">
+                        <button (click)="toggleEdit(false)" type="button" class="mt-3 mr-3 float-right btn btn-sm btn-danger">
+                          <i class="fas fa-arrow-left"></i></button>
+                        <button (click)="onSave()" type="button" class="mt-3 mr-1 float-right btn btn-sm btn-success">
+                          <i class="fas fa-check"></i></button>
+                      </ng-container>
+                    </p-header>
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="row">
+                          <div class="col-6 mb-3">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" class="form-control" pInputText 
+                            [(ngModel)]="show.nombre" name="nombre" [readonly]="!edit"/>
+                          </div>
+                          <div class="col-6 mb-3">
+                            <label for="nombre">Precio Entrada:</label>
+                            <p-inputNumber [(ngModel)]="show.precio" mode="decimal" [minFractionDigits]="2" locale="es-AR" [disabled]="!edit"></p-inputNumber>
+                          </div>
+                          <ng-container *ngIf="show.fechaInicioEstreno && show.fechaFinEstreno">
+                            <div class="col-6 mb-3">
+                              <label for="nombre">Inicio Último Estreno:</label>
+                              <p-calendar [(ngModel)]="show.fechaInicioEstreno" name="fechaInicioEstreno" [disabled]="true"></p-calendar>
+                            </div>
+                            <div class="col-6 mb-3">
+                              <label for="nombre">Fin Último Estreno:</label>
+                              <p-calendar [(ngModel)]="show.fechaFinEstreno" name="fechaFinEstreno"  [disabled]="true"></p-calendar>
+                            </div>
+                          </ng-container>
+                          <div class="col-6 mb-3">
+                            <label for="nombre">Estado:
+                              <button (click)="displayCambiar=true" type="button" class="btn btn-sm btn-light" style="margin-left: 12.1vw">
+                                <i class="fas fa-exchange-alt"></i></button>
+                            </label>
+                            <button type="button" [class]="'form-control btn btn-sm btn-' + show.estado.color">
+                              <i class="fas fa-{{show.estado.icono}}"></i>
+                              {{show.estado.nombre}}
+                          </button>
+                          </div>
+                          <div class="col-6 mb-3">
+                            <label for="nombre">Link:</label>
+                            <input type="text" class="form-control" pInputText 
+                            [(ngModel)]="show.link" name="link" [readonly]="!edit"/>
+                          </div>
+                          <div class="col-12 mb-3">
+                            <label for="descripcion">Descripcion:</label>
+                            <textarea class="form-control" type="text" style="height: 14vh !important;" pInputTextArea [(ngModel)]="show.descripcion" name="descripcion" [readonly]="!edit"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <img src="{{show.imagen}}" alt="Imagen del show" style="width: 500px;">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12" style="height: auto;">
+                          <label for="descripcion">Repertorio:</label>
+                          <p-editor [(ngModel)]="show.repertorio" name="repertorio" [style]="{'height':'24vh'}" [readonly]="!edit"></p-editor>
+                      </div>
+                    </div>
+                    <p-footer>
+                        
+                    </p-footer>
+                </p-card>
+              </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog header="Cambiar estado" [(visible)]="displayCambiar" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <label for="nombre">Estado:</label> <br>
+    <p-dropdown placeholder="Elija un estado" [options]="estados" [(ngModel)]="selectedEstado" optionLabel="nombre"></p-dropdown>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayCambiar=false" label="Yes" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>

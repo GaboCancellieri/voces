@@ -1,0 +1,44 @@
+<app-menu-web></app-menu-web>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="titulo">
+            ACTIVIDADES
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+    <!-- Team member -->
+      <div class="col-md-4" *ngFor="let actividad of actividades">
+        <div class="image-flip" >
+            <div class="mainflip flip-0">
+                <div class="frontside">
+                    <div class="card card-alt">
+                        <div class="card-body text-center">
+                            <p><img class=" img-fluid" src="{{ actividad.imagen }}" alt="imagen actividad"></p>
+                            <h4 class="card-title">{{ actividad.nombre }}</h4>
+                            <span class="badge badge-pill badge-light mb-2" style="background-color: #FC01A0; color: white; font-size: small;">{{actividad.edad}}</span> <br>
+                            <span *ngIf="actividad.duracion" class="badge badge-light" style="font-size: small;">{{actividad.duracion}}</span>
+                            <span *ngIf="actividad.cupo" class="badge badge-light" style="font-size: small;">Cupo: {{actividad.cupo}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="backside">
+                    <div class="card card-alt">
+                        <div class="card-body text-center">
+                            <h4 class="card-title">{{ actividad.nombre }}</h4>
+                            <div class="card-text mt-2 justify-content-center">
+                                <span class="badge badge-pill mb-3" style="font-size: medium; background-color: black;"><i class="fas fa-calendar"></i> {{actividad.horarios.dias}} - {{actividad.horarios.hora}}</span>
+                                <ng-container *ngFor="let costo of actividad.costo" >
+                                    <span class="badge badge-light mb-2" style="font-size: small;">{{costo.anio || 'Precios'}}: <br> Inscripción: ${{costo.inscripcion}} / Cuota Mensual: ${{costo.cuotaMensual}}</span>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+<a id="contacto">
+    <app-footer-web></app-footer-web>
+</a>

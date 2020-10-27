@@ -1,0 +1,151 @@
+<div class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <app-admin-navigation></app-admin-navigation>
+    <div class="content-wrapper">
+      <div class="container-fluid">
+          <ng-container *ngIf="institucional">
+              <h1 class="titulo-admin"> Institucional</h1>
+              <div class="row" style="margin-bottom: 2%;">
+                  <div class="col-6">
+                      <p-card header="Equipo Docente" [style]="{ 'max-height': '450px' }">
+                          <p-header>
+                              <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-primary" [disabled]="edit" (click)="onAdd()">
+                                  <i class="fas fa-plus"></i> Agregar
+                              </button>
+                          </p-header>
+                          <p-table [value]="docentes" selectionMode="single" [(selection)]="selectedDocente" dataKey="_id"
+                          (onRowSelect)="selectDocente()">
+                              <ng-template pTemplate="header">
+                                  <tr>
+                                      <th *ngFor="let col of cols">
+                                          {{col.header}}
+                                      </th>
+                                  </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-docente>
+                                  <tr [pSelectableRow]="docente">
+                                      <td *ngFor="let col of cols">
+                                          <div *ngIf="docente[col.field] && col.field !== 'imagen'">
+                                              {{docente[col.field]}}
+                                          </div>
+                                      </td>
+                                  </tr>
+                              </ng-template>
+                          </p-table>
+                      </p-card>
+                  </div>
+                  <div class="col-6">
+                      <p-card [header]="(add) ? 'Agregar Docente' : 'Detalle Docente'" [style]="{ 'min-height': '520px' }">
+                          <p-header *ngIf="selectedDocente && !add">
+                              <ng-container *ngIf="!edit" >
+                                  <button type="button" (click)="deleteDocente('center')" class="mt-3 mr-3 float-right btn btn-sm btn-danger">
+                                      <i class="fas fa-trash"></i> Eliminar
+                                  </button>
+                                  <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-warning" (click)="toggleEdit()">
+                                      <i class="fas fa-pencil-alt"></i> Editar
+                                  </button>
+                              </ng-container>
+                              <ng-container *ngIf="edit">
+                                  <button  type="button" class="mt-3 mr-3 float-right btn btn-sm btn-danger" (click)="toggleEdit()">
+                                      <i class="fas fa-times"></i> Cancelar
+                                  </button>
+                                  <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-success" (click)="updateDocente()">
+                                      <i class="fas fa-check"></i> Confirmar
+                                  </button>
+                              </ng-container>
+                          </p-header>
+                          <p-header *ngIf="!selectedDocente && add">
+                              <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-danger" (click)="add = false;">
+                                  <i class="fas fa-times"></i> Cancelar
+                              </button>
+                              <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-success" (click)="onAdd()">
+                                  <i class="fas fa-check"></i> Confirmar
+                              </button>
+                          </p-header>
+                          <ng-container *ngIf="!selectedDocente && !add">
+                              <i class="fas fa-hand-point-left"></i> Elija un docente para ver detalle
+                          </ng-container>
+                          <ng-container *ngIf="selectedDocente && !add">
+                              <div class="row">
+                                  <div class="col-4">
+                                      <img [src]="selectedDocente.imagen" class="mt-3" style="width: 150px;" alt="">
+                                  </div>
+                                  <div class="col-8">
+                                      <div class="form-group">
+                                          <label>Nombre</label>
+                                          <input type="text" class="form-control" pInputText [(ngModel)]="selectedDocente.nombre" name="nombre" [readonly]="!edit"/>
+                                      </div>
+                                      <div class="form-group">
+                                          <label>Apellido</label>
+                                          <input type="text" class="form-control" pInputText [(ngModel)]="selectedDocente.apellido" name="apellido" [readonly]="!edit"/>
+                                      </div>
+                                      <div class="form-group">
+                                          <label>Profesion</label>
+                                          <input type="text" class="form-control" pInputText [(ngModel)]="selectedDocente.rol" name="rol" [readonly]="!edit"/>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="form-group">
+                                          <label>Biografia</label>
+                                          <textarea class="form-control" type="text" style="height: 24vh !important;" pInputTextArea [(ngModel)]="selectedDocente.biografia" name="biografia" [readonly]="!edit"></textarea>
+                                      </div>
+                                  </div>
+                              </div>
+                          </ng-container>
+                          <ng-container *ngIf="!selectedDocente && add">
+                              <div class="row">
+                                  <div class="col-4">
+                                      <img src="https://static.thenounproject.com/png/88089-200.png" class="mt-3" style="width: 150px;" alt="">
+                                  </div>
+                                  <div class="col-8">
+                                      <div class="form-group">
+                                          <label>Nombre</label>
+                                          <input type="text" class="form-control" pInputText [(ngModel)]="model.nombre" name="nombre"/>
+                                      </div>
+                                      <div class="form-group">
+                                          <label>Apellido</label>
+                                          <input type="text" class="form-control" pInputText [(ngModel)]="model.apellido" name="apellido"/>
+                                      </div>
+                                      <div class="form-group">
+                                          <label>Profesion</label>
+                                          <input type="text" class="form-control" pInputText [(ngModel)]="model.rol" name="rol"/>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="form-group">
+                                          <label>Biografia</label>
+                                          <textarea class="form-control" type="text" style="height: 24vh !important;" pInputTextArea [(ngModel)]="model.biografia" name="biografia"></textarea>
+                                      </div>
+                                  </div>
+                              </div>
+                          </ng-container>
+                      </p-card>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-6">
+                      <p-panel header="Historia" [toggleable]="true" collapsed="true">
+                          <p-editor [(ngModel)]="institucional.historia" [style]="{'height':'auto'}" ></p-editor>
+                          <p-button type="button" icon="pi pi-check" label="Guardar"
+                          class="guardar p-button-success p-button-rounded p-button-raised" (click)="save()"></p-button>
+                      </p-panel>
+                  </div>
+                  <div class="col-6">
+                      <p-panel header="Proyecto" [toggleable]="true" collapsed="true">
+                          <p-editor [(ngModel)]="institucional.proyecto" [style]="{'height':'auto'}" ></p-editor>
+                          <p-button type="button" icon="pi pi-check" label="Guardar"
+                          class="guardar p-button-success p-button-rounded p-button-raised" (click)="save()"></p-button>
+                      </p-panel>
+                  </div>
+              </div>
+          </ng-container>
+      </div>
+    </div>
+  </div>
+
+<p-toast position="top-right" key="tr" [style]="{ 'margin-top': '32px'}"></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"></p-confirmDialog>

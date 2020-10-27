@@ -1,0 +1,17 @@
+<div class="d-flex justify-content-center" style="flex-grow: 3 !important;">
+    <div class="container" onclick="onclick">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="center">
+        <img src="../../../assets/img/logo-sin-fondo.png" alt="Logo VOCES" style="width: 30%">
+        <form class="custom-form">
+            <input type="text" placeholder="usuario" [(ngModel)]="username" name="username" required="required"/>
+            <input type="password" placeholder="contraseña" [(ngModel)]="password" name="password" required="required"/>
+            <button class="btn btn-primary" style="float: right; margin-right: 40%; border-color: white !important; 
+            background-color: #FC01A0 !important; color: black !important;" type="submit" (click)="login()">Iniciar</button>
+            <h2>&nbsp;</h2>
+        </form>
+        </div>
+    </div>
+</div>
+<p-toast position="top-right" key="tr"></p-toast>
