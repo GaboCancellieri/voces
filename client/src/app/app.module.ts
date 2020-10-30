@@ -24,6 +24,9 @@ import { AreaService } from './services/area.service';
 import { ShowsService } from './services/shows.service';
 import { EntradaService } from './services/entradas.service';
 import { WatchComponent } from './webpage/watch/watch.component';
+import { SafePipe } from './pipes/safeUrl.pipe';
+import { SanitizeHtmlPipe } from './pipes/sanitizeHTML.pipe';
+import { ClienteService } from './services/cliente.service';
 
 // NG PRIME
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -38,6 +41,8 @@ import {TooltipModule} from 'primeng/tooltip';
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     TabMenuModule,
     CarouselModule,
@@ -45,6 +50,8 @@ import {TooltipModule} from 'primeng/tooltip';
     TooltipModule,
   ],
   declarations: [
+    SafePipe,
+    SanitizeHtmlPipe,
     AppComponent,
     HomeComponent,
     FooterWebComponent,
@@ -69,6 +76,7 @@ import {TooltipModule} from 'primeng/tooltip';
     AreaService,
     ShowsService,
     EntradaService,
+    ClienteService,
   ],
   bootstrap: [AppComponent, ]
 })

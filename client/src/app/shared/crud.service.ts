@@ -1,38 +1,54 @@
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CrudOperations } from './crud-operations.interface';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { Options } from './options';
+import Swal from 'sweetalert2';
 
 export abstract class CrudService<T, ID> implements CrudOperations<T, ID> {
 
   public baseURL = environment.apiUrl;
+  defaultOptions: Options = { params: null, showError: true, showLoader: true };
 
   constructor(
     protected http: HttpClient,
     protected base: string
   ) {}
 
-  save(t: T): Observable<T> {
-    return this.http.post<T>(this.baseURL + this.base, t);
+  save(t: T, options: Options = this.defaultOptions): Observable<T> {
+    return this.http.post<T>(this.baseURL + this.base, t).pipe(
+      map((res: any) => this.parse(res)),
+      catchError((err: any) => this.handleError(err, options))
+      );
   }
 
-  update(id: ID, t: T): Observable<T> {
-    return this.http.patch<T>(this.baseURL + this.base + '/' + id, t, {});
+  update(id: ID, t: T, options: Options = this.defaultOptions): Observable<T> {
+    return this.http.patch<T>(this.baseURL + this.base + '/' + id, t, {}).pipe(
+      map((res: any) => this.parse(res)),
+      catchError((err: any) => this.handleError(err, options))
+      );
   }
 
-  findOne(id: ID): Observable<any> {
+  findOne(id: ID, options: Options = this.defaultOptions): Observable<any> {
     return this.http.get<any>(this.baseURL + this.base + '/' + id).pipe(
       map((res: any) => this.parse(res)),
-    );
+      catchError((err: any) => this.handleError(err, options))
+      );
   }
 
-  findAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.baseURL + this.base);
+  findAll(options: Options = this.defaultOptions): Observable<T[]> {
+    return this.http.get<T[]>(this.baseURL + this.base).pipe(
+      map((res: any) => this.parse(res)),
+      catchError((err: any) => this.handleError(err, options))
+      );
   }
 
-  delete(id: ID): Observable<T> {
-    return this.http.delete<T>(this.baseURL + this.base + '/' + id);
+  delete(id: ID, options: Options = this.defaultOptions): Observable<T> {
+    return this.http.delete<T>(this.baseURL + this.base + '/' + id).pipe(
+      map((res: any) => this.parse(res)),
+      catchError((err: any) => this.handleError(err, options))
+      );
   }
 
   public parse(data: any): any {
@@ -62,5 +78,37 @@ export abstract class CrudService<T, ID> implements CrudOperations<T, ID> {
     }
     return data;
 
+}
+
+public handleError(response: any, options: Options) {
+  console.log(response);
+  let message;
+  if (response.error && response.error.message) {
+      message = response.error.message;
+  } else {
+      message = 'La aplicación no pudo comunicarse con el servidor. Por favor revise su conexión a la red.';
+  }
+
+  if (!options || options.showError || (options.showError === undefined)) {
+      // El código 400 es usado para enviar mensaje de validación al usuario
+      if (response.status === 400) {
+        Swal.fire({
+          icon: (response.error.imageUrl) ? null : 'error',
+          title: response.error.title || 'Error',
+          text: message,
+          imageUrl: response.error.imageUrl || null,
+          imageHeight: response.error.imageHeight || null,
+          confirmButtonColor: '#FC01A0',
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'No se pudo conectar con el servidor!',
+          text: message,
+          confirmButtonColor: '#FC01A0',
+        });
+      }
+  }
+  return throwError(message);
 }
 }

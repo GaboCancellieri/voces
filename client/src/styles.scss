@@ -3,6 +3,7 @@
 @import '~primeicons/primeicons.css';
 @import '~primeng/resources/themes/luna-pink/theme.css';
 @import '~primeng/resources/primeng.min.css';
+@import '~@sweetalert2/theme-dark/dark.scss';
 
 body {
     background: #000000 !important; 
@@ -12,6 +13,21 @@ body {
 .container{
     overflow: hidden;
 }
+
+.swal2-popup {
+    background: #222 !important;
+}
+
+.swal2-title{
+    font-family: 'Heebo', sans-serif !important;
+    color: #fff !important;
+}
+
+.swal2-content{
+    color: #b2b2b2 !important;
+    text-align: center !important;
+  }
+  
 
 div .titulo {
     background: 50% 100% / 50% 50% no-repeat
