@@ -19,6 +19,7 @@ var Areas = require('./api/areas/areas.schema');
 var Shows = require('./api/shows/shows.schema');
 var Compra = require('./api/compra/compra.schema');
 var Entrada = require('./api/entrada/entrada.schema');
+var Cliente = require('./api/cliente/cliente.schema');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -30,6 +31,7 @@ var areasRoutes = require('./api/areas/areas.routes');
 var showsRoutes = require('./api/shows/shows.routes');
 var compraRoutes = require('./api/compra/compra.routes');
 var entradaRoutes = require('./api/entrada/entrada.routes');
+var clienteRoutes = require('./api/cliente/cliente.routes');
 
 // register routes
 userAdminRoutes(app);
@@ -38,6 +40,7 @@ areasRoutes(app);
 showsRoutes(app);
 compraRoutes(app);
 entradaRoutes(app);
+clienteRoutes(app);
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')))

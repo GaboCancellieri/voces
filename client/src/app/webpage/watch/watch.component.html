@@ -1,35 +1,41 @@
 
 <ng-container *ngIf="show">
-    <div class="container">
-        <div class="row" style="height: 60vh !important">
-            <div class="col d-flex justify-content-center">
-                <div class="card" style="width: 18rem; background-color: #111;">
-                    <img class="card-img-top" src="{{show.imagen}}" alt="portada show">
-                    <div class="card-body">
-                      <h5 class="card-title">{{show.nombre}}</h5>
-                      <div class="col-lg-12 login-form">
-                        <div class="col-lg-12 login-form">
-                            <form>
-                                <div class="form-group">
-                                    <label class="form-control-label">EMAIL</label>
-                                    <input type="text" class="form-control" [(NgModel)]="model.email" name="email">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label">CÓDIGO DE ENTRADA</label>
-                                    <input type="text" class="form-control" [(NgModel)]="model.codigo" name="codigo" pTooltip="Código que recibió en su email" tooltipPosition="right">
-                                </div>
-        
-                            </form>
-                                    <div class="d-flex justify-content-center loginbttm">
-                                        <button class="btn rounded btn-outline-primary" (click)="verificarEntrada()">ENTRAR</button>
-                                    </div>
-                        </div>
+    <ng-container *ngIf="!verShow">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-form-title" style="background-image: url({{show.imagen}});">
+                    <span class="login100-form-title-1">
+                        {{show.nombre}}
+                    </span>
+                </div>
+
+                <form class="login100-form validate-form">
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Campo obligatorio">
+                        <span class="label-input100">Email</span>
+                        <input class="input100" type="text" [(ngModel)]="model.email" name="email" placeholder="Ingrese email">
+                        <span class="focus-input100"></span>
                     </div>
+
+                    <div class="wrap-input100 validate-input m-b-18" data-validate = "Campo obligatorio">
+                        <span class="label-input100">Código</span>
+                        <input class="input100" type="text" [(ngModel)]="model.codigo" name="codigo" placeholder="Ingrese código recibido en el mail">
+                        <span class="focus-input100"></span>
                     </div>
-                  </div>
+                    <div class="mt-4 container-login100-form-btn">
+                        <button class="login100-form-btn" (click)="verificarEntrada()">
+                            Entrar al show
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="verShow">
+        <div class="container-login100 d-flex justify-content-center">
+            <div id="rectangle"></div>
+            <iframe class="video" [src]="show.link + '?iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1' | safe" allowtransparency  width="560" height="315" frameborder="0" scrolling="no" id="iframe"></iframe>
+        </div>
+    </ng-container>
 </ng-container>    
 
 
