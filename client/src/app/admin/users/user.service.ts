@@ -2,27 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
+import { UrlService } from 'src/app/window.provider.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  base = 'http://localhost:3000/';
+  base = this.urlService.getRestApiUrl();
 
   constructor(
       private http: HttpClient,
+      private urlService: UrlService,
       ) {}
 
   login(user: any): Observable<any> {
-    return this.http.post<any>(this.base + 'api/loginAdmin', user).pipe(
+    return this.http.post<any>(this.base + '/loginAdmin', user).pipe(
       tap(res => this.setSession(res)),
       shareReplay()
     );
   }
 
   register(user: any): Observable<any> {
-    return this.http.post(this.base + 'api/register', user);
+    return this.http.post(this.base + '/register', user);
   }
 
   private setSession(authResult) {

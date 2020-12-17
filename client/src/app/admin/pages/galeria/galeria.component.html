@@ -3,6 +3,125 @@
     <div class="content-wrapper">
         <div class="container-fluid">
             <h1 class="titulo-admin"> Galeria</h1>
-      </div>
+            <div class="row" style="margin-bottom: 2%;">
+              <div class="col-6">
+                  <p-card header="Albums" [style]="{ 'max-height': '450px' }">
+                      <p-header>
+                          <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-primary" [disabled]="edit" (click)="onAdd()">
+                              <i class="fas fa-plus"></i> Agregar
+                          </button>
+                      </p-header>
+                      <p-table [value]="albums" selectionMode="single" [(selection)]="selectedAlbum" dataKey="_id"
+                      (onRowSelect)="selectAlbum()">
+                          <ng-template pTemplate="header">
+                              <tr>
+                                  <th *ngFor="let col of cols">
+                                      {{col.header}}
+                                  </th>
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-album>
+                              <tr [pSelectableRow]="album">
+                                  <td *ngFor="let col of cols">
+                                      <div *ngIf="album[col.field] && col.field !== 'imagen'">
+                                          {{album[col.field]}}
+                                      </div>
+                                  </td>
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage">
+                              <tr>
+                                  <td [attr.colspan]="albums.length">
+                                      No hay albums
+                                  </td>
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                  </p-card>
+              </div>
+              <div class="col-6">
+                  <p-card [header]="(add) ? 'Agregar Album' : 'Detalle Album'" [style]="{ 'min-height': '450px' }">
+                      <p-header *ngIf="selectedAlbum && !add">
+                          <ng-container *ngIf="!edit" >
+                              <button type="button" (click)="deleteAlbum('center')" class="mt-3 mr-3 float-right btn btn-sm btn-danger">
+                                  <i class="fas fa-trash"></i> Eliminar
+                              </button>
+                              <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-warning" (click)="toggleEdit()">
+                                  <i class="fas fa-pencil-alt"></i> Editar
+                              </button>
+                          </ng-container>
+                          <ng-container *ngIf="edit">
+                              <button  type="button" class="mt-3 mr-3 float-right btn btn-sm btn-danger" (click)="toggleEdit()">
+                                  <i class="fas fa-times"></i> Cancelar
+                              </button>
+                              <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-success" (click)="updateAlbum()">
+                                  <i class="fas fa-check"></i> Confirmar
+                              </button>
+                          </ng-container>
+                      </p-header>
+                      <p-header *ngIf="!selectedAlbum && add">
+                          <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-danger" (click)="add = false;">
+                              <i class="fas fa-times"></i> Cancelar
+                          </button>
+                          <button type="button" class="mt-3 mr-1 float-right btn btn-sm btn-success" (click)="save()"
+                          [disabled]="!model.titulo || !model.descripcion">
+                              <i class="fas fa-check"></i> Confirmar
+                          </button>
+                      </p-header>
+                      <ng-container *ngIf="!selectedAlbum && !add">
+                          <i class="fas fa-hand-point-left"></i> Elija un album para ver detalle
+                      </ng-container>
+                      <ng-container *ngIf="selectedAlbum && !add">
+                          <div class="row">
+                              <div class="col">
+                                  <div class="form-group">
+                                      <label>Titulo</label>
+                                      <input type="text" class="form-control" pInputText [(ngModel)]="selectedAlbum.titulo" name="titulo" [readonly]="!edit"/>
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Descripción</label>
+                                      <textarea class="form-control" type="text" style="height: 24vh !important;" pInputTextAlbum [(ngModel)]="selectedAlbum.descripcion" name="descripcion" [readonly]="!edit"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                          <h6>
+                            Imágenes
+                          </h6>
+                          <div class="row" *ngIf="edit">
+                            <div class="col">
+                              <p-fileUpload accept="image/*" multiple="true" maxFileSize="4000000" name="imagenes[]"
+                              chooseLabel="" uploadLabel="" cancelLabel="" customUpload="true"
+                              (uploadHandler)="myUploader($event)"></p-fileUpload>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-4 mt-3 d-flex justify-content-center" *ngFor="let imagen of selectedAlbum.imagenes" >
+                              <button class="btn btn-sm btn-danger" *ngIf="edit" (click)="deleteImage(imagen)"><i class="fas fa-times"></i></button>
+                                <img class="mr-2" src="../../../../assets/img/galeria/{{imagen}}"
+                                width="100%" alt="imagen">
+                              </div>
+                          </div>
+                      </ng-container>
+                      <ng-container *ngIf="!selectedAlbum && add">
+                          <div class="row">
+                              <div class="col">
+                                  <div class="form-group">
+                                      <label>Titulo</label>
+                                      <input type="text" class="form-control" pInputText [(ngModel)]="model.titulo" name="titulo"/>
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Descripción</label>
+                                      <textarea class="form-control" type="text" style="height: 24vh !important;" pInputTextAlbum [(ngModel)]="model.descripcion" name="descripcion"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                      </ng-container>
+                  </p-card>
+              </div>
+          </div>
+        </div>
     </div>
   </div>
+
+  <p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"
+acceptLabel="Eliminar" rejectLabel="Cancelar"></p-confirmDialog>

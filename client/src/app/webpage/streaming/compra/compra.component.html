@@ -1,0 +1,277 @@
+<div class="wrap">
+  <div class="popcorn">
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <div class="titulo">
+            BOLETERIA
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-center">
+          <!-- fieldsets -->
+          <div class="card" style="width: 60rem;">
+            <div class="card-body">
+            <ng-container *ngIf="stepNumber === 0">
+              <div class="row">
+                <div class="col" style="text-align: center;">
+                  <h2>Elegir Entradas
+                    <button class="btn btn-sm btn-danger float-right" (click)="goBack()">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </h2>
+                  <h5>Elija cuántas entradas comprar
+                    <span class="tooltip-toggle" aria-label="Usted puede comprar entradas para otras personas. Asegúrese de ingresar el email correspondiente para que cada persona reciba el código de entrada y el link." tabindex="0">
+                      <i style="color: rgb(0, 132, 255); font-size: 16px;" class="fas fa-info-circle"></i>
+                    </span>
+                  </h5>
+                  <ng-container *ngIf="entradasCompradas && entradasCompradas.length === 1">
+                  <label for="entrada">Entrada Única</label>
+                    <div class="row">
+                      <div class="col-12">
+                        <input class="form-control" type="text" [value]="entradasCompradas[0].nombre" name="fname" placeholder="Nombre" disabled="true"/>
+                      </div>
+                      <div class="col-12 mt-2">
+                        <input class="form-control" type="text" [value]="entradasCompradas[0].apellido" name="lname" placeholder="Apellido" disabled="true"/>
+                      </div>
+                      <div class="col-12 mt-2">
+                        <input class="form-control" type="text" [value]="entradasCompradas[0].email" name="email" placeholder="Email" disabled="true"/>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="entradasCompradas && entradasCompradas.length >= 2">
+                    <label for="entrada">Lista de Entradas</label>
+                    <p-table [value]="entradasCompradas" [scrollable]="true" scrollHeight="130px" [responsive]="true"
+                    [style]="{'height': '180px'}">
+                      <ng-template pTemplate="header">
+                          <tr>
+                              <th>Nombre</th>
+                              <th>Apellido</th>
+                              <th>Email</th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-entrada>
+                          <tr>
+                              <td>{{entrada.nombre}}</td>
+                              <td>{{entrada.apellido}}</td>
+                              <td>{{entrada.email}}</td>
+                          </tr>
+                      </ng-template>
+                    </p-table>
+                  </ng-container>
+                  <div class="mt-3">
+                    <button class="btn btn-md btn-success rounded float-left" data-toggle="modal" data-target="#entradaModal">
+                      <i class="fas fa-ticket-alt"></i> Agregar Entrada
+                    </button>
+                    <button *ngIf="entradasCompradas.length > 1" class="btn btn-md btn-warning rounded float-left mr-1" (click)="onQuitarEntrada()">
+                      <i class="fas fa-trash"></i> Quitar Entrada
+                    </button>
+                    <button class="btn btn-md btn-dark rounded float-right" style="background: #FC01A0;" (click)="stepNumber = stepNumber + 1;">
+                      Siguiente &nbsp; <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="stepNumber === 1">
+              <section class="shopping-cart dark" *ngIf="!showPayment">
+                <div class="container" id="container" style="text-align: center;">
+                  <h2>Resumen de Compra
+                    <button class="btn btn-sm btn-danger float-right" (click)="stepNumber = stepNumber - 1">
+                      <i class="fas fa-arrow-left"></i>
+                    </button>
+                  </h2>
+                            <div class="content">
+                              <div class="row">
+                                <div class="col-md-12 col-lg-8">
+                                  <div class="items">
+                                    <div class="product">
+                                      <div class="info">
+                                        <div class="product-details">
+                                          <div class="row justify-content-md-center">
+                                            <div class="col-md-8 product-detail" style="text-align: center;">
+                                              <h5 style="font-size: 19px;">Show</h5>
+                                              <img class="img-fluid mx-auto image" width="50%" src="../../../../assets/img/shows/{{show.imagen}}">
+                                              <div class="product-info">
+                                                <p><strong><span id="product-description">{{show.nombre}}</span></strong><br>
+                                                <b>Precio por entrada:</b> $ <span id="unit-price">{{show.precio}}</span></p>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4 product-detail">
+                                              <div for="quantity"><h5 style="font-size: 19px;">Entradas</h5></div>
+                                              <input disabled="true" type="number" id="quantity" value="{{entradasCompradas.length}}" class="form-control"><br>
+                                              <b style="color: blue;">Válida desde:</b><br><span id="product-description">{{entradasCompradas[0].inicio | date: 'medium'}}</span><br>
+                                              <b style="color: red;">Válida hasta:</b><br><span id="unit-price">{{entradasCompradas[0].fin | date: 'medium'}}</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-12 col-lg-4">
+                                  <div class="summary">
+                                    <h3>Carrito</h3>
+                                    <div class="summary-item"><span class="text">Subtotal</span><span class="price" id="cart-total">{{precioTotal | currency: 'ARS'}}</span></div>
+                                    <ng-container *ngIf="preference">
+                                      <button class="btn btn-dark btn-lg btn-block" id="checkout-btn" (click)="comprar()" [disabled]="doSubmit">Comprar</button>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </section>
+                      <!-- <section class="payment-form" *ngIf="showPayment">
+                        <div class="container_payment">
+                          <h2 style="text-align: center;">
+                            Realizar Pago
+                            <button class="btn btn-sm btn-danger float-right" (click)="dontShowPayment()">
+                              <i class="fas fa-arrow-left"></i>
+                            </button>
+                          </h2>
+                          <div class="form-payment">
+                            <div class="products">
+                              <h2 class="title" style="font-weight: bold; color: #FC01A0;">Resumen</h2>
+                              <div class="item"><strong>{{show.nombre}}</strong>
+                                <span class="price" id="summary-price">{{show.precio | currency: 'ARS'}}</span>
+                              </div>
+                              <div class="item"><strong>Entradas</strong>
+                                <span class="price" id="summary-price">{{entradasCompradas.length}}</span>
+                              </div>
+                              <div *ngIf="paymentMethod && paymentMethod.payment_type_id === 'credit_card'" class="item"><strong>Cargos adicionales</strong>
+                                <span class="price" id="summary-price">{{(((show.precio * entradasCompradas.length) *7)/100) | currency: 'ARS'}}</span>
+                              </div>
+                              <div class="total"><strong>Total</strong>
+                                <span class="price" id="summary-total">{{precioTotal | currency: 'ARS'}}</span>
+                              </div>
+                            </div>
+                            <div class="payment-details">
+                              <form action="/process_payment" method="post" id="paymentForm">
+                                  <h3 class="title" style="font-weight: bold; color: #FC01A0;">Detalles de Comprador</h3>
+                                  <div class="row">
+                                    <div class="form-group col">
+                                      <label for="email">E-Mail</label>
+                                      <input id="email" name="email" type="text" class="form-control" [(ngModel)]="modelComprador.email"/>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="form-group col-sm-5">
+                                      <label for="docType">Tipo de Documento</label>
+                                      <select id="docType" name="docType" data-checkout="docType" type="text" class="form-control" (change)="setTipoDoc($event.target.value)"></select>
+                                    </div>
+                                    <div class="form-group col-sm-7">
+                                      <label for="docNumber">Número de Documento</label>
+                                      <input id="docNumber" name="docNumber" data-checkout="docNumber" type="text" class="form-control" [(ngModel)]="modelComprador.docNumber"/>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <h3 class="title" style="font-weight: bold; color: #FC01A0;">Detalles de Tarjeta
+                                    <span class="tooltip-toggle" aria-label="Se aplicarán cargos adicionales a las tarjetas de crédito." tabindex="0">
+                                      <i style="color: rgb(0, 132, 255); font-size: 16px;" class="fas fa-info-circle"></i>
+                                    </span></h3>
+                                  <div class="row">
+                                    <div class="form-group col-sm-8">
+                                      <label for="cardholderName">Nombre de titular (como figura en la tarjeta)</label>
+                                      <input id="cardholderName" data-checkout="cardholderName" type="text" class="form-control" [(ngModel)]="modelTarjeta.cardholderName" name="cardholderName">
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                      <label for="">Fecha de Vencimiento</label>
+                                      <div class="input-group expiration-date">
+                                        <input type="text" class="form-control" placeholder="MM" id="cardExpirationMonth" data-checkout="cardExpirationMonth" maxlength="2" [(ngModel)]="modelTarjeta.cardExpirationMonth"
+                                        name="cardExpirationMonth"
+                                        onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off>
+                                        <span class="date-separator">/</span>
+                                        <input type="text" class="form-control" placeholder="YY" id="cardExpirationYear" data-checkout="cardExpirationYear" maxlength="2" [(ngModel)]="modelTarjeta.cardExpirationYear"
+                                        name="cardExpirationYear"
+                                        onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off>
+                                      </div>
+                                    </div>
+                                    <div class="form-group col-sm-8">
+                                      <label for="cardNumber">Numero de Tarjeta <img *ngIf="paymentMethod" src="{{paymentMethod.secure_thumbnail}}"></label>
+                                      <input type="text" class="form-control input-background" id="cardNumber" data-checkout="cardNumber" (change)="guessPaymentMethod($event)"
+                                        [(ngModel)]="modelTarjeta.cardNumber" name="cardNumber"
+                                        onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                      <label for="securityCode">Código de Seguridad</label>
+                                      <input id="securityCode" data-checkout="securityCode" type="text" class="form-control" [(ngModel)]="modelTarjeta.securityCode" name="securityCode"
+                                        onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off>
+                                    </div>
+                                    <div id="issuerInput" class="form-group col-sm-12 hidden">
+                                      <label for="issuer">Emisor</label>
+                                      <select id="issuer" name="issuer" data-checkout="issuer" class="form-control"></select>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                      <label for="installments">Cuotas</label>
+                                      <select type="text" id="installments" name="installments" class="form-control" (change)="setCuota($event.target.value)"></select>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                      <input type="hidden" name="transactionAmount" id="transactionAmount" value="{{precioTotal}}"/>
+                                      <input type="hidden" name="paymentMethodId" id="paymentMethodId" />
+                                      <input type="hidden" name="description" id="description" />
+                                      <br>
+                                      <button type="submit" class="btn btn-dark btn-block" style="background: #FC01A0;" *ngIf="!doSubmit"
+                                      (click)="getCardToken($event)" [disabled]="doSubmit || !modelComprador.email || !validarMail('compra') || !modelComprador.docType || !modelComprador.docNumber || !modelTarjeta.cardholderName || !modelTarjeta.cardNumber
+                                      || !modelTarjeta.cardExpirationMonth || !modelTarjeta.cardExpirationYear || !modelTarjeta.securityCode">PAGAR</button>
+                                      <button type="submit" class="btn btn-dark btn-block" style="background: #FC01A0;" *ngIf="doSubmit"
+                                      (click)="getCardToken($event)" [disabled]="true">
+                                        <i class="fas fa-spinner fa-pulse"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </section> -->
+              </ng-container>
+          </div>
+        </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="entradaModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.9);">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header"> <button #close type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> </div>
+        <div class="modal-body p-0 row" style="background-color: #111; color: white; border-radius: 10px;">
+          <div class="details col-12">
+            <div class="row d-flex justify-content-center">
+              <div class="col-12 d-flex justify-content-center mb-2">
+                <img src="https://cdn4.iconfinder.com/data/icons/customicondesignoffice2/256/create-ticket.png" style="width: 15%" alt="ticket"> <br>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" class="form-control" [(ngModel)]="nuevaEntrada.nombre" name="nombre">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="apellido">Apellido</label>
+                  <input type="text" class="form-control" [(ngModel)]="nuevaEntrada.apellido" name="apellido">
+                </div>
+              </div>
+                <div class="col-12">
+                  <div class="form-group mt-2">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" placeholder="email@ejemplo.com" [(ngModel)]="nuevaEntrada.email">
+                    <span *ngIf="mailRepetido()" style="color: red;">Esta persona ya tiene su entrada</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center mt-2">
+                <button class="btn btn-success rounded" (click)="agregarEntrada()"
+                [disabled]="!nuevaEntrada.email || !nuevaEntrada.nombre || !nuevaEntrada.apellido || !validarMail('entrada') || mailRepetido()"> Agregar</button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

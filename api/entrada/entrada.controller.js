@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
 Entrada = mongoose.model('Entrada');
+var Email = require('../utils/mailCtrl')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const moment = require('moment')
@@ -25,18 +26,31 @@ function randomString(length, chars) {
   return result;
 }
 
-exports.createEntrada = (req, res) => {
-  var new_entrada = new Entrada(req.body);
-  var codigo = randomString(10, '#aA');
-  bcrypt.hash(codigo, saltRounds, (err, hash) => {
-    // Store hash in your password DB.
-    new_entrada['clave'] = hash
-    new_entrada.save((err, entrada) => {
-      if (err)
-        res.send(err);
-      res.json(entrada);
-    });
-  });
+exports.createEntrada = async (req, res) => {
+  var entradas = req.body;
+  for (const entrada of entradas) {
+    var new_entrada = new Entrada(entrada);
+    var codigo = randomString(10, '#aA');
+    var hash = await bcrypt.hash(codigo, saltRounds);
+    new_entrada['clave'] = hash;
+    await new_entrada.save();
+    var contenido = `
+        <div style="text-align: center; width: 100%; height: 100%; background: black; color: white;">
+          <img src="https://scontent.faep8-1.fna.fbcdn.net/v/t1.0-9/73257648_699185753906957_503143044925620224_o.jpg?_nc_cat=110&ccb=2&_nc_sid=09cbfe&_nc_ohc=IhMcAjejbHsAX9riwJ6&_nc_ht=scontent.faep8-1.fna&oh=0f4efc83a298a8ef8cca57e008b8e69c&oe=5FE37C12"
+          style="width: 30%"
+          alt="logo voces">
+          <h1>¡Hola ${entrada.nombre}!</h1>
+          <h1>Tenes una entrada para el show</h1>
+          <h2>Válida desde ${moment.utc(entrada.inicio).utcOffset("-03:00").format('DD/MM/YYYY HH:mm')} hasta ${moment.utc(entrada.fin).utcOffset("-03:00").format('DD/MM/YYYY HH:mm')}</h2>
+          <h2>Tu código es: <strong style="color: #fc01a0">${codigo}</strong></h2>
+          <a style="font-size: x-large; font-weight: bold; 
+          background: #fc01a0; text-decoration: none;
+          display: block; color: white;" href="https://www.escuelavoces.com/streaming/watch/${entrada.idShow}/${new_entrada.email}/${codigo}">VER SHOW</a>
+        </div>
+    `;
+    await Email.sendEmail(new_entrada.email, `VOCES: ENTRADA PARA SHOW`, contenido)
+  }
+  res.json(entradas);
 };
 
 exports.getEntrada = (req, res) => {
@@ -47,15 +61,15 @@ exports.getEntrada = (req, res) => {
   });
 };
 
-exports.verificarEntrada = (req, res) => {
+exports.verificarEntrada = async (req, res) => {
   const idShow = req.params.idShow
   const email = req.query.email;
   const codigo = req.query.codigo;
   const now = moment().toDate()
-  Entrada.findOne({ idShow, email, 'inicio': {$lte: now}, 'fin': {$gte: now}, activa: true }, (err, entrada) => {
+  Entrada.find({ idShow, email, 'inicio': {$lte: now}, 'fin': {$gte: now}, activa: true }, async (err, entradas) => {
     if (err)
       res.send(err);
-    if (!entrada) {
+    if (!entradas || entradas.length < 1) {
       return res.status(400).json({ 
         imageUrl: 'https://cdn0.iconfinder.com/data/icons/city-elements-flaticon/64/stop-stop_sign-traffic_sign-architecture_and_city-stopping-circulation-signaling-256.png',
         imageHeight: 90,
@@ -63,25 +77,31 @@ exports.verificarEntrada = (req, res) => {
         message: 'El mail ingresado no posee ninguna entrada activa para este show. Revise que el mail sea el mismo que le asignó al comprar la entrada.'
       });
     }
-    const hash = entrada.clave;
-    bcrypt.compare(codigo, hash, (err, result) => {
+    console.log(entradas)
+    let entradaBuscada;
+    for (const entrada of entradas) {
+      const hash = entrada.clave;
+      const result = await bcrypt.compare(codigo, hash);
       if (result) {
-        res.status(200).json({
-          _id: entrada._id,
-          email: entrada.email,
-          inicio: entrada.inicio,
-          fin: entrada.fin,
-          activa: entrada.activa
-        });
-      } else {
-        res.status(400).json({ 
-          imageUrl: 'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/locked-256.png',
-          imageHeight: 90,
-          title: 'Codigo de entrada inválido',
-          message: 'Revise el código ingresado con el código que le llegó a su email al comprar la entrada.'
-        });
+        entradaBuscada = entrada;
       }
-    });
+    }
+    if (entradaBuscada) {
+      res.status(200).json({
+        _id: entradaBuscada._id,
+        email: entradaBuscada.email,
+        inicio: entradaBuscada.inicio,
+        fin: entradaBuscada.fin,
+        activa: entradaBuscada.activa
+      });
+    } else {
+      res.status(400).json({ 
+        imageUrl: 'https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/locked-256.png',
+        imageHeight: 90,
+        title: 'Codigo de entrada inválido',
+        message: 'Revise el código ingresado con el código que le llegó a su email al comprar la entrada.'
+      });
+    }
   });
 };
 

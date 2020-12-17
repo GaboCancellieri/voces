@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { Area } from 'src/app/schemas/area';
 import { AreaService } from 'src/app/services/area.service';
+import { ImagesService } from 'src/app/services/images.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-areas',
@@ -23,13 +25,14 @@ export class AreasAdminComponent implements OnInit {
     private areaService: AreaService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private imagesService: ImagesService,
   ) {}
 
   ngOnInit(): void {
     this.getAreas();
     this.cols = [
       { field: 'nombre', header: 'Nombre' },
-  ];
+    ];
   }
 
   getAreas() {
@@ -92,5 +95,28 @@ export class AreasAdminComponent implements OnInit {
 
   clear() {
     this.messageService.clear();
+  }
+
+  myUploader(event): void {
+    const files = event.files;
+    const fileNames = [];
+    const formData: FormData = new FormData();
+    for (const file of files) {
+        const fileName = `${this.selectedArea.nombre} - ${file.name}`;
+        formData.append('upload', file, fileName);
+        fileNames.push(fileName);
+    }
+
+    this.imagesService.uploadImages(formData, 'areas').subscribe((result) => {
+      console.log(result);
+      this.selectedArea.imagenes.push(...fileNames);
+      this.areaService.update(this.selectedArea._id, this.selectedArea).subscribe((area) => {
+        Swal.fire({
+          title: 'Subida Exitosa!',
+          text: 'Las imágenes se subieron exitosamente.',
+          icon: 'success',
+        });
+      });
+    });
   }
 }

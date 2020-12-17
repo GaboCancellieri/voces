@@ -5,8 +5,8 @@ exports.sendEmail = async (email, asunto, contenido) => {
     var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'w9854w@gmail.com',
-            pass: 'y31$k?n9,'
+            user: 'vocesescueladecanto@gmail.com',
+            pass: 'Canto123e'
         }
     });
 
@@ -15,7 +15,7 @@ exports.sendEmail = async (email, asunto, contenido) => {
         from: 'VOCES',
         to: email,
         subject: asunto,
-        text: contenido
+        html: contenido
     };
 
     // Enviamos el email

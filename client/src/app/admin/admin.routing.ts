@@ -10,16 +10,21 @@ import { GaleriaAdminComponent } from './pages/galeria/galeria.component';
 import { StreamingAdminComponent } from './pages/streaming/streaming.component';
 import { ContactoAdminComponent } from './pages/contacto/contacto.component';
 import { ShowDetalleAdminComponent } from './pages/streaming/show-detalle/show-detalle.component';
+import { NovedadesAdminComponent } from './pages/novedades/novedades.component';
+import { GeneradorEntradaComponent } from './pages/generarEntrada/generadorEntrada.component';
 
 const routes: Routes = [
     { path: 'inicio', component: AdminComponent, canActivate: [AuthGuard] },
+    { path: 'novedades', component: NovedadesAdminComponent, canActivate: [AuthGuard] },
     { path: 'institucional', component: InstitucionalAdminComponent, canActivate: [AuthGuard] },
     { path: 'areas', component: AreasAdminComponent, canActivate: [AuthGuard] },
     { path: 'actividades', component: ActividadesAdminComponent, canActivate: [AuthGuard] },
     { path: 'streaming', component: StreamingAdminComponent, canActivate: [AuthGuard] },
-    { path: 'streaming/:idShow', component: ShowDetalleAdminComponent, canActivate: [AuthGuard] },
+    { path: 'streaming/show', component: ShowDetalleAdminComponent, canActivate: [AuthGuard] },
+    { path: 'streaming/show/:idShow', component: ShowDetalleAdminComponent, canActivate: [AuthGuard] },
     { path: 'galeria', component: GaleriaAdminComponent, canActivate: [AuthGuard] },
     { path: 'contacto', component: ContactoAdminComponent, canActivate: [AuthGuard] },
+    { path: 'generarEntrada', component: GeneradorEntradaComponent, canActivate: [AuthGuard] },
     { path: 'login', component: AdminLoginComponent },
     { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];

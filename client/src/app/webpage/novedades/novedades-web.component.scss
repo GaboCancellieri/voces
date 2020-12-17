@@ -2,12 +2,13 @@
     padding: 10%;
     background-image: url(../../../assets/img/theater002.png);
     background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
+    background-size: 100% 100%;
+    background-position: 50%;
+    border-radius: 7%!important;
 }
 
 .carousel-item img {
-    border-radius: 10%;
+    border-radius: 10% !important;
 }
 
 .carousel-item .active .carousel-item-left img {

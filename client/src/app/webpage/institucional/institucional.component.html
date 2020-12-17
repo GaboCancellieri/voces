@@ -4,9 +4,9 @@
       INSTITUCIONAL
     </div>
   </div>
-  <div class="row d-flex justify-content-center">
-      <div class="col">
-          <div class="card" style="height: 38rem; margin: 2%; background-color: #fff; box-shadow: 4px 4px 10px 0px #FC01A0;">
+  <div class="row">
+      <div class="col-12 d-flex justify-content-center">
+          <div class="card card-hist" style="background-color: #fff; box-shadow: 4px 4px 10px 0px #FC01A0;">
             <div class="card-body">
               <h5 class="card-title" style="color: #FC01A0">HISTORIA</h5>
               <p class="card-text" style="text-align:justify" [innerHTML]="institucional.historia">
@@ -14,56 +14,55 @@
             </div>
           </div>
       </div>
-      <div class="col">
-        <div class="card" style="height: 38rem; margin: 2%; background-color: transparent;" *ngIf="directora">
+      <div class="col-12 d-flex justify-content-center" style="height: fit-content;">
+        <div class="card" style="width: 100vw; max-width: 850px; background-color: transparent;" *ngIf="directora">
             <div class="card-body">
-                <div class="row d-flex justify-content-center">
-                  <!-- Team member -->
-                  <div class="col-md-12">
-                    <div class="image-flip" >
-                        <div class="mainflip flip-0">
-                            <div class="frontside">
-                                <div class="card card-alt2" style="min-height: 550px; box-shadow: 4px 4px 10px 0px #FC01A0;">
-                                    <div class="card-body text-center">
-                                        <p><img class="carddd img-fluid" [src]="directora.imagen" alt="card image"></p>
-                                        <h4 class="card-title2">{{directora.nombre}} {{directora.apellido}}</h4>
-                                        <p class="card-text">{{directora.rol}}</p>
-                                    </div>
-                                </div>
+              <div class="image-flip" >
+                <div class="mainflip flip-0">
+                    <div class="frontside">
+                        <div class="cardDir card-alt2" style="box-shadow: 4px 4px 10px 0px #FC01A0;">
+                            <div class="card-body text-center">
+                                <ng-container *ngIf="directora.imagen; else default">
+                                  <p><img class="carddd img-fluid" src="../../../assets/img/docentes/{{directora.imagen}}" alt="card image"></p>
+                                </ng-container>
+                                <ng-template #default>
+                                  <p><img class="carddd img-fluid" src="../../../assets/img/docentes/mariana.png" alt="card image"></p>
+                                </ng-template>
+                                <h4 class="card-title2">{{directora.nombre}} {{directora.apellido}}</h4>
+                                <p class="card-text">{{directora.rol}}</p>
                             </div>
-                            <div class="backside">
-                                <div class="card card-alt2" style="min-height: 550px; box-shadow: 4px 4px 10px 0px #FC01A0;">
-                                    <div class="card-body text-justify mt-4">
-                                        <h4 class="card-title2">{{directora.nombre}} {{directora.apellido}}</h4>
-                                        <p class="card-text">
-                                          {{directora.biografia}}
-                                        </p>
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="backside">
+                        <div class="cardDir card-alt2" style="box-shadow: 4px 4px 10px 0px #FC01A0;">
+                            <div class="card-body text-justify">
+                                <h4 class="card-title2">{{directora.nombre}} {{directora.apellido}}</h4>
+                                <p class="card-text" style="overflow-y: auto;">
+                                  {{directora.biografia}}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- ./Team member -->
-              </div>  
+              </div>
             </div>
-          </div> 
+          </div>
     </div>
 </div>
-<div class="d-flex justify-content-center" style="margin-top: 1%">
+<div class="d-flex justify-content-center" style="margin-top: 3%">
     <div class="titulo">
-      Equipo Docente
+      STAFF DE VOCES
     </div>
 </div>
 <div class="row d-flex justify-content-center">
     <!-- Team member -->
-    <div *ngFor="let docente of docentes" class="col-md-4">
+    <div class="col-md-4 d-flex justify-content-center" *ngFor="let docente of docentes" >
     <div class="image-flip" >
         <div class="mainflip flip-0">
             <div class="frontside">
                 <div class="card card-alt">
                     <div class="card-body text-center">
-                        <p><img class=" img-fluid" [src]="docente.imagen" alt="card image"></p>
+                        <p><img *ngIf="docente.imagen" class="img-fluid" src="../../../assets/img/docentes/{{docente.imagen}}" alt="card image"></p>
                         <h4 class="card-title">{{docente.nombre}} {{docente.apellido}}</h4>
                         <p class="card-text">{{docente.rol}}</p>
                     </div>

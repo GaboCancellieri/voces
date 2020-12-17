@@ -5,14 +5,14 @@
           <h1 class="titulo-admin"> Streaming</h1>
           <div class="p-grid">
               <div class="p-col-6">
-                  <p-card header="Shows" [style]="{ 'max-height': '450px' }">
+                  <p-card header="Shows">
                       <p-header>
                           <button type="button" class="mt-3 mr-3 float-right btn btn-sm btn-primary" [disabled]="edit" (click)="onAdd()">
                               <i class="fas fa-plus"></i> Agregar
                           </button>
                       </p-header>
                       <p-table [value]="shows" selectionMode="single" [(selection)]="selectedShow" dataKey="_id"
-                      (onRowSelect)="selectShow()">
+                      [scrollable]="true" [rows]="100" scrollHeight="250px" [virtualScroll]="true" [virtualRowHeight]="34">
                           <ng-template pTemplate="header">
                               <tr>
                                   <th *ngFor="let col of cols">
@@ -27,7 +27,7 @@
                                           {{show[col.field]}}
                                       </div>
                                       <div *ngIf="show[col.field] && col.field === 'precio'">
-                                          {{show[col.field] | currency:'ARS':'symbol-narrow':'4.2-2'}}
+                                          {{show[col.field] | currency:'ARS' }}
                                       </div>
                                       <div *ngIf="show[col.field] && col.field === 'estado'">
                                           <button type="button" [class]="'btn btn-sm btn-' + show[col.field].color">
@@ -50,9 +50,9 @@
                           </ng-template>
                       </p-table>
                       <p-footer>
-                          <button style="margin-left: 97%;" type="button" [disabled]="!selectedShow"
+                          <button style="margin-left: 92%;" type="button" [disabled]="!selectedShow"
                           class="btn btn-sm btn-success" (click)="verDetalle()">
-                              <i class="fas fa-eye"></i>
+                              <i class="fas fa-eye"></i> Detalle
                           </button>
                       </p-footer>
                   </p-card>

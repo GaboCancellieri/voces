@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { PipesModule } from './pipes/pipes.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,21 +25,39 @@ import { AreaService } from './services/area.service';
 import { ShowsService } from './services/shows.service';
 import { EntradaService } from './services/entradas.service';
 import { WatchComponent } from './webpage/watch/watch.component';
-import { SafePipe } from './pipes/safeUrl.pipe';
-import { SanitizeHtmlPipe } from './pipes/sanitizeHTML.pipe';
 import { ClienteService } from './services/cliente.service';
-
+import { CompraService } from './services/compra.service';
+import { UserStreamingComponent } from './webpage/streaming/user/user-streaming.component';
+import { CarteleraComponent } from './webpage/streaming/cartelera/cartelera.component';
+import { ComprarShowComponent } from './webpage/streaming/compra/compra.component';
+import { AlbumService } from './services/album.service';
+import { ImagesService } from './services/images.service';
+import { ImagenesService } from './services/imagenes.service';
+import { ActividadesService } from './services/actividades.service';
+import { UrlService } from './window.provider.service';
+import { WINDOW_PROVIDERS } from './window.provider';
+import { EmailService } from './services/email.service';
+import { ResultadoCompraComponent } from './webpage/streaming/resultadoCompra/resultadoCompra.component';
 // NG PRIME
 import { TabMenuModule } from 'primeng/tabmenu';
 import { CarouselModule } from 'primeng/carousel';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import {TooltipModule} from 'primeng/tooltip';
+import { TooltipModule } from 'primeng/tooltip';
+import { StepsModule } from 'primeng/steps';
+import {DropdownModule} from 'primeng/dropdown';
+import {InputMaskModule} from 'primeng/inputmask';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {TableModule} from 'primeng/table';
+import {GalleriaModule} from 'primeng/galleria';
+import { CardModule } from 'primeng/card';
+import { from } from 'rxjs';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    PipesModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -48,10 +67,15 @@ import {TooltipModule} from 'primeng/tooltip';
     CarouselModule,
     AdminModule,
     TooltipModule,
+    DropdownModule,
+    StepsModule,
+    InputNumberModule,
+    InputMaskModule,
+    TableModule,
+    GalleriaModule,
+    CardModule,
   ],
   declarations: [
-    SafePipe,
-    SanitizeHtmlPipe,
     AppComponent,
     HomeComponent,
     FooterWebComponent,
@@ -66,10 +90,17 @@ import {TooltipModule} from 'primeng/tooltip';
     NotFoundComponent,
     UnderConstructionComponent,
     WatchComponent,
+    UserStreamingComponent,
+    CarteleraComponent,
+    ComprarShowComponent,
+    ResultadoCompraComponent,
   ],
 
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    { provide: Window, useValue: window },
+    UrlService,
+    WINDOW_PROVIDERS,
     JwtHelperService,
     InstitucionalService,
     DocenteService,
@@ -77,6 +108,12 @@ import {TooltipModule} from 'primeng/tooltip';
     ShowsService,
     EntradaService,
     ClienteService,
+    CompraService,
+    AlbumService,
+    ImagesService,
+    ImagenesService,
+    ActividadesService,
+    EmailService,
   ],
   bootstrap: [AppComponent, ]
 })

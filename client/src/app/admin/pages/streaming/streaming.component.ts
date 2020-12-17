@@ -23,7 +23,7 @@ export class StreamingAdminComponent implements OnInit {
       { field: 'nombre', header: 'Nombre' },
       { field: 'precio', header: 'Precio Entrada' },
       { field: 'estado', header: 'Estado' },
-      { field: 'estreno', header: 'Ultimo Estreno' },
+      { field: 'estreno', header: 'Fechas Disponible' },
     ];
 
     this.getShows();
@@ -36,15 +36,11 @@ export class StreamingAdminComponent implements OnInit {
     });
   }
 
-  selectShow() {
-
-  }
-
   onAdd() {
-
+    this.router.navigate([`/admin-voces/streaming/show`]);
   }
 
   verDetalle() {
-    this.router.navigate([`/admin-voces/streaming/${this.selectedShow._id}`]);
+    this.router.navigate([`/admin-voces/streaming/show/${this.selectedShow._id}`]);
   }
 }

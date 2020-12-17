@@ -1,6 +1,22 @@
 <app-menu-web></app-menu-web>
 <div class="container">
-    <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
+    <div class="titulo">
+      Proyecto
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-12 d-flex justify-content-center">
+          <div class="card card-hist" style="background-color: #fff; box-shadow: 4px 4px 10px 0px #FC01A0;">
+            <div class="card-body">
+              <h5 class="card-title" style="color: #FC01A0">Proyecto Institucional</h5>
+              <p class="card-text" style="text-align:justify" [innerHTML]="institucional.proyecto">
+              </p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-5">
         <div class="titulo">
             ÁREAS
         </div>
@@ -12,13 +28,7 @@
                 <p class="card-text">{{ area.descripcion }}</p>
                 <div class="row">
                     <div class="col d-flex justify-content-center">
-                        <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
-                        style="width: 7vw;" alt="">
-                        <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
-                        style="width: 7vw;" alt="">
-                        <img class="mr-2" src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
-                        style="width: 7vw;" alt="">
-                        <img src="https://www.thetradedesk.com/reach-es/media/5cd732a184a4f258bdf8b5ab7195d148/socialmedia-icons-instagram-dark-gray-full.png"
+                        <img *ngFor="let areaImagen of area.imagenes" class="mr-2" src="../../../assets/img/areas/{{areaImagen}}"
                         style="width: 7vw;" alt="">
                     </div>
                 </div>

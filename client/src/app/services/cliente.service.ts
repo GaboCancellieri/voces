@@ -5,12 +5,16 @@ import { Cliente } from '../schemas/cliente';
 import { Options } from '../shared/options';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { UrlService } from '../window.provider.service';
 
 @Injectable()
 export class ClienteService extends CrudService<Cliente, string> {
 
-  constructor(protected http: HttpClient) {
-    super(http, '/clientes');
+  constructor(
+    protected http: HttpClient,
+    protected urlService: UrlService,
+    ) {
+    super(http, '/clientes', urlService);
   }
 
   iniciarSesion(email: string, password: string, options: Options = this.defaultOptions): Observable<Cliente> {

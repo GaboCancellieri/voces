@@ -13,7 +13,12 @@
                 <div class="frontside">
                     <div class="card card-alt">
                         <div class="card-body text-center">
-                            <p><img class=" img-fluid" src="{{ actividad.imagen }}" alt="imagen actividad"></p>
+                            <ng-container *ngIf="actividad.imagen; else default">
+                              <p><img class=" img-fluid" src="../../../assets/img/actividades/{{actividad.imagen }}" alt="imagen actividad"></p>
+                            </ng-container>
+                            <ng-template #default>
+                              <p><img class=" img-fluid" src="https://icon-library.com/images/singing-icon/singing-icon-4.jpg" alt="imagen actividad"></p>
+                            </ng-template>
                             <h4 class="card-title">{{ actividad.nombre }}</h4>
                             <span class="badge badge-pill badge-light mb-2" style="background-color: #FC01A0; color: white; font-size: small;">{{actividad.edad}}</span> <br>
                             <span *ngIf="actividad.duracion" class="badge badge-light" style="font-size: small;">{{actividad.duracion}}</span>
@@ -26,9 +31,9 @@
                         <div class="card-body text-center">
                             <h4 class="card-title">{{ actividad.nombre }}</h4>
                             <div class="card-text mt-2 justify-content-center">
-                                <span class="badge badge-pill mb-3" style="font-size: medium; background-color: black;"><i class="fas fa-calendar"></i> {{actividad.horarios.dias}} - {{actividad.horarios.hora}}</span>
-                                <ng-container *ngFor="let costo of actividad.costo" >
-                                    <span class="badge badge-light mb-2" style="font-size: small;">{{costo.anio || 'Precios'}}: <br> Inscripción: ${{costo.inscripcion}} / Cuota Mensual: ${{costo.cuotaMensual}}</span>
+                                <span *ngFor="let horario of actividad.horarios" class="badge badge-pill mb-3" style="font-size: medium; background-color: black;"><i class="fas fa-calendar"></i> {{horario.dia}} - {{horario.hora}}</span>
+                                <ng-container *ngFor="let precio of actividad.precios" >
+                                    <span class="badge badge-light mb-2" style="font-size: small;">{{precio.descripcion || 'Precios'}}: <br> Inscripción: ${{precio.inscripcion}} / Cuota Mensual: ${{precio.cuotaMensual}}</span>
                                 </ng-container>
                             </div>
                         </div>

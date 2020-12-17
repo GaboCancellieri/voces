@@ -5,16 +5,23 @@ import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { Options } from './options';
 import Swal from 'sweetalert2';
+import { UrlService } from '../window.provider.service';
 
 export abstract class CrudService<T, ID> implements CrudOperations<T, ID> {
 
-  public baseURL = environment.apiUrl;
+  private headers = new Headers({
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  });
+  public baseURL = this.urlService.getRestApiUrl();
   defaultOptions: Options = { params: null, showError: true, showLoader: true };
 
   constructor(
     protected http: HttpClient,
-    protected base: string
-  ) {}
+    protected base: string,
+    protected urlService: UrlService,
+  ) { }
 
   save(t: T, options: Options = this.defaultOptions): Observable<T> {
     return this.http.post<T>(this.baseURL + this.base, t).pipe(
@@ -24,7 +31,7 @@ export abstract class CrudService<T, ID> implements CrudOperations<T, ID> {
   }
 
   update(id: ID, t: T, options: Options = this.defaultOptions): Observable<T> {
-    return this.http.patch<T>(this.baseURL + this.base + '/' + id, t, {}).pipe(
+    return this.http.patch<T>(this.baseURL + this.base + '/' + id, t).pipe(
       map((res: any) => this.parse(res)),
       catchError((err: any) => this.handleError(err, options))
       );
@@ -85,6 +92,8 @@ public handleError(response: any, options: Options) {
   let message;
   if (response.error && response.error.message) {
       message = response.error.message;
+  } else if (response.message === 'Timeout has occurred') {
+      message = 'Timeout';
   } else {
       message = 'La aplicación no pudo comunicarse con el servidor. Por favor revise su conexión a la red.';
   }

@@ -122,12 +122,38 @@ section .section-title {
 
 .frontside .card,
 .backside .card {
-    min-height: 312px;
+  min-height: 312px;
+  max-height: 312px;
 }
 
 .backside .card a {
     font-size: 18px;
     color: #fff !important;
+}
+
+.frontside.cardDir,
+.backside.cardDir {
+  min-height: 312px;
+}
+
+.backside.cardDir a {
+    font-size: 18px;
+    color: #fff !important;
+}
+
+
+.frontside .cardDir .card-title,
+.backside .cardDir .card-title {
+    font-family: 'Fjalla One', sans-serif;
+    color: #FC01A0 !important;
+    text-transform: uppercase;
+}
+
+.frontside .cardDir .card-title2,
+.backside .cardDir .card-title2 {
+    font-family: 'Fjalla One', sans-serif;
+    color: #FC01A0 !important;
+    text-transform: uppercase;
 }
 
 .frontside .card .card-title,
@@ -151,9 +177,21 @@ section .section-title {
     box-shadow: 2px 2px 5px 2px black;
 }
 
-.frontside .card .card-body img.carddd {
+.frontside .cardDir .card-body img.carddd {
     width: 250px;
     height: 350px;
     border-radius: 10%;
     box-shadow: 2px 2px 5px 2px black;
+}
+
+@media screen and (max-width: 768px) {
+  .card-hist {
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+
+  p.card-text {
+    overflow-y: scroll;
+    max-height: 400px !important;
+  }
 }

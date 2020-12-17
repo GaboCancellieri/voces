@@ -5,6 +5,18 @@ var Email = require('../utils/mailCtrl')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+var readHTMLFile = function(path, callback) {
+  fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+      if (err) {
+          throw err;
+          callback(err);
+      }
+      else {
+          callback(null, html);
+      }
+  });
+};
+
 exports.getClientes = (req, res) => {
   Cliente.find({}, (err, clientes) => {
     if (err)
@@ -32,8 +44,17 @@ exports.createCliente = async (req, res) => {
     new_cliente.password = await bcrypt.hash(req.body.password, saltRounds);
     new_cliente['codigo'] = hash;
     var cliente = await new_cliente.save();
-    var contenido = 'CODIGO DE ACTIVACIÓN: ' + codigo;
-    Email.sendEmail(cliente.email, 'Activación usuario Voces', contenido)
+    var contenido = `
+        <div style="text-align: center; width: 100%; height: 100%; background: black; color: white;">
+          <img src="https://scontent.faep8-1.fna.fbcdn.net/v/t1.0-9/73257648_699185753906957_503143044925620224_o.jpg?_nc_cat=110&ccb=2&_nc_sid=09cbfe&_nc_ohc=IhMcAjejbHsAX9riwJ6&_nc_ht=scontent.faep8-1.fna&oh=0f4efc83a298a8ef8cca57e008b8e69c&oe=5FE37C12"
+          style="width: 30%"
+          alt="logo voces">
+          <h1>¡Hola ${cliente.nombre}!</h1>
+          <h1>Necesitamos que actives tu cuenta.</h1>
+          <h2>Tu código es: <strong style="color: #fc01a0">${codigo}</strong></h2>
+        </div>
+    `;
+    Email.sendEmail(cliente.email, 'VOCES: ACTIVACIÓN DE USUARIO', contenido)
     res.json(cliente);
   } catch (err) {
     return res.status(400).json({ 

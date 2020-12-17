@@ -22,6 +22,11 @@ export class NavigationComponent implements OnInit {
     this.getUserLogged();
     this.items = [
       {
+        label: 'anuncios/novedades',
+        icon: 'fas fa-newspaper',
+        link: '/admin-voces/novedades',
+      },
+      {
         label: 'institucional',
         icon: 'fas fa-university',
         link: '/admin-voces/institucional',
@@ -50,6 +55,11 @@ export class NavigationComponent implements OnInit {
         label: 'contacto',
         icon: 'fas fa-phone',
         link: '/admin-voces/contacto',
+      },
+      {
+        label: 'Generar Entradas',
+        icon: 'fas fa-ticket-alt',
+        link: '/admin-voces/generarEntrada',
       },
     ];
   }

@@ -62,3 +62,32 @@
     width:100%;
     transition:800ms ease all;
   }
+
+  div.columna-logo {
+    display: flex;
+    justify-content: center;
+  }
+
+  div.menu-anuncios {
+    float: right;
+    margin-right: 25%;
+    width: 100% !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    div.columna-logo {
+      display: flex;
+      justify-content: center;
+    }
+
+    div.menu-anuncios {
+      float: none;
+      margin-right: 0%;
+      width: 100% !important;
+    }
+
+    a.logo-menu {
+      float: none;
+      margin-left: 0%;
+    }
+}

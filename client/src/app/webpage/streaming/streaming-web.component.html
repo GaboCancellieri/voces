@@ -1,94 +1,14 @@
 <app-menu-web></app-menu-web>
 <div class="container">
-  <div class="row" *ngIf="!cliente || !cliente.validado">
-   <div class="col-12">
-      <button class="custom-btn btn-5" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i><span>  Iniciar Sesion</span></button>
-   </div> 
-  </div>
-  <div class="row" *ngIf="cliente && cliente.validado">
-    <div class="col-12">
-      <nav class="navbar navbar-expand-lg rounded navbar-dark" style="background: #111; font-family: 'Fjalla One', sans-serif !important;">
-        <a class="navbar-brand">
-          <img width="15%" src="https://cdn1.iconfinder.com/data/icons/instagram-ui-colored/48/JD-17-256.png" alt="cliente icono">
-          {{cliente.nombre}} {{cliente.apellido}}
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link rounded" [ngClass]="{'active': mostrarCliente === 'inicio'}" (click)="goTo('inicio')">Inicio <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link rounded" [ngClass]="{'active': mostrarCliente === 'entradas'}" (click)="goTo('entradas')">Mis Entradas</a>
-          </div>
-        </div>
-        <span class="navbar-text">
-          <button class="btn btn-sm rounded btn-danger" (click)="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-          </button>
-        </span>
-      </nav>
-    </div>
-  </div>
-  <ng-container *ngIf="mostrarCliente == 'entradas'">
-    <div class="d-flex justify-content-center">
-      <div class="titulo">
-          MIS ENTRADAS
+  <app-user-streaming *ngIf="cliente && cliente.validado; else botonIniciar" [cliente]="cliente" (logoutCliente)="onLogout()"></app-user-streaming>
+  <ng-template #botonIniciar>
+    <div class="row">
+      <div class="col-12">
+         <button #iniciarSesion class="custom-btn btn-5" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i><span>  Iniciar Sesion</span></button>
       </div>
-    </div>
-    <ng-container *ngIf="entradas">
-      <div class="row d-flex justify-content-center">
-        <div class="card" style="width: 18rem;" *ngFor="let entrada of entradas">
-          <img class="card-img-top" src="{{entrada.idShow.imagen}}" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">{{entrada.idShow.nombre}}</h5>
-            <p><strong>Válida hasta: {{entrada.fin | date: 'dd/MM/yyyy'}}</strong></p>
-            <p class="card-text">{{entrada.idShow.descripcion}}</p>
-            <ng-container *ngIf="entradaVencida(entrada); else expirada">
-              <button (click)="verShow(entrada.idShow._id)" class="btn btn-warning"><i class="fas fa-film"></i> Ver Show</button>
-            </ng-container>
-            <ng-template #expirada>
-              <button class="btn btn-dark"><i class="fas fa-clock"></i> Vencida</button>
-            </ng-template>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-  </ng-container>
-  <ng-container *ngIf="mostrarCliente == 'inicio'">
-    <ng-container *ngIf="estrenos">
-    <div class="d-flex justify-content-center">
-        <div class="titulo">
-            ESTRENOS
-        </div>
-    </div>
-      <div class="row d-flex justify-content-center">
-        <div class="col-12">
-          <div id="carouselExampleIndicators3" class="carousel slide mb-2" data-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active" *ngFor="let estreno of estrenos">
-                  <img class="d-block w-100" src="{{estreno.imagen}}" alt="First slide">
-                </div>
-              </div>
-              <a class="carousel-control-prev" style="padding-left: 8%" href="#carouselExampleIndicators3" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" style="padding-right: 8%" href="#carouselExampleIndicators3" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <div class="d-flex justify-content-center" style="margin-top: 1%">
-      <div class="titulo">
-        CARTELERA
-      </div>
-        <ng-container *ngIf="estrenos">
-        </ng-container>
-    </div>
-  </ng-container>
+     </div>
+    <app-cartelera (realizarCompra)="realizarCompra($event)"></app-cartelera>
+  </ng-template>
 </div>
 <a id="contacto">
   <app-footer-web></app-footer-web>
@@ -100,8 +20,8 @@
     <div class="modal-content">
         <div class="modal-header"> <button #close type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> </div>
         <div class="modal-body p-0 row" style="background-color: #111; color: white; border-radius: 10px;">
-            <div class="col-12 col-lg-4 ad p-0"> 
-              <img style="object-fit: cover; border-radius: 10px;" src="https://scontent.faep9-2.fna.fbcdn.net/v/t1.0-9/74268508_695393627619503_3171147948624969728_o.jpg?_nc_cat=111&ccb=2&_nc_sid=8bfeb9&_nc_ohc=zf5eOL6EeGYAX_0dpCV&_nc_ht=scontent.faep9-2.fna&oh=62401c15ab1713c1bc03c23a1fa907b0&oe=5FC143A1" width="100%" height="100%" /> 
+            <div class="col-12 col-lg-4 ad p-0">
+              <img style="object-fit: cover; border-radius: 10px;" src="https://scontent.faep8-2.fna.fbcdn.net/v/t1.0-9/126319648_995320187626844_7014907967565728578_o.jpg?_nc_cat=104&ccb=2&_nc_sid=a26aad&_nc_ohc=-IQGoRx-7X8AX8RRhTB&_nc_ht=scontent.faep8-2.fna&oh=3aebd99350fbead8dfc77b442c974625&oe=5FE6FEA6" width="100%" height="100%" />
             </div>
             <div class="details col-12 col-lg-8">
               <div class="d-flex justify-content-center">
@@ -117,11 +37,11 @@
               <ng-container *ngIf="mostrar === 'inicio'">
                 <div class="form-group mt-3">
                   <label for="email">Email</label>
-                  <input type="email" class="form-control" placeholder="email@ejemplo.com" [(ngModel)]="model.email"> 
+                  <input type="email" class="form-control" placeholder="email@ejemplo.com" [(ngModel)]="model.email">
                 </div>
                 <div class="form-group mb-2">
                   <label for="email">Contraseña</label>
-                  <input type="password" class="form-control" [(ngModel)]="model.password"> 
+                  <input type="password" class="form-control" [(ngModel)]="model.password">
                 </div>
                 <div class="row">
                   <div class="col float-right">
@@ -138,30 +58,30 @@
                   <div class="col-lg-6">
                     <div class="form-group mt-2">
                       <label for="email">Nombre</label>
-                      <input type="text" class="form-control" placeholder="Juan" [(ngModel)]="modelRegistro.nombre"> 
+                      <input type="text" class="form-control" placeholder="nombre" [(ngModel)]="modelRegistro.nombre">
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="form-group mt-2 mr-2">
                       <label for="email">Apellido</label>
-                      <input type="text" class="form-control" placeholder="Perez" [(ngModel)]="modelRegistro.apellido"> 
+                      <input type="text" class="form-control" placeholder="apellido" [(ngModel)]="modelRegistro.apellido">
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="form-group mt-2">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" placeholder="email@ejemplo.com" [(ngModel)]="modelRegistro.email"> 
+                      <input type="email" class="form-control" placeholder="email@ejemplo.com" [(ngModel)]="modelRegistro.email">
                     </div>
                   </div>
                   <div class="col-lg-6">
                     <div class="form-group mt-2 mr-2">
                       <label for="email">Contraseña</label>
-                      <input type="password" class="form-control" [(ngModel)]="modelRegistro.password"> 
+                      <input type="password" class="form-control" [(ngModel)]="modelRegistro.password">
                     </div>
                   </div>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
-                  <button class="btn btn-success btn-sm rounded" (click)="registrarCliente()" 
+                  <button class="btn btn-success btn-sm rounded" (click)="registrarCliente()"
                   [disabled]="!modelRegistro.nombre || !modelRegistro.apellido || !modelRegistro.email || !modelRegistro.password"><i class="fas fa-user-plus"></i> Confirmar</button>
                 </div>
               </ng-container>
@@ -170,10 +90,10 @@
                 <p>Revise su casilla de mail y copie el código de activación.</p>
                 <div class="form-group mt-3">
                   <label for="codigo">Código de Validación</label>
-                  <input type="text" class="form-control" [(ngModel)]="modelValidacion.codigo"> 
+                  <input type="text" class="form-control" [(ngModel)]="modelValidacion.codigo">
                 </div>
                 <div class="d-flex justify-content-center mt-4">
-                  <button class="btn btn-success btn-sm rounded" (click)="validarCuenta()" 
+                  <button class="btn btn-success btn-sm rounded" (click)="validarCuenta()"
                   [disabled]="!modelValidacion.codigo">
                   <i class="fas fa-check"></i> Validar</button>
                 </div>
@@ -181,5 +101,5 @@
             </div>
       </div>
     </div>
-</div>
+  </div>
 </div>

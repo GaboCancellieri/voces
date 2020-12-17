@@ -3,18 +3,18 @@ module.exports = function(app) {
   var clientes = require('./cliente.controller');
 
   // Cliente Routes
-  app.route('/clientes')
+  app.route('/api/clientes')
     .get(clientes.getClientes)
     .post(clientes.createCliente)
 
-  app.route('/clientes/:idCliente')
+  app.route('/api/clientes/:idCliente')
     .get(clientes.getCliente)
     .patch(clientes.updateCliente)
     .delete(clientes.deleteCliente)
 
-  app.route('/iniciar/cliente')
+  app.route('/api/iniciar/cliente')
   .post(clientes.iniciarSesion)
 
-  app.route('/validar/cliente/:idCliente')
+  app.route('/api/validar/cliente/:idCliente')
   .patch(clientes.validarCliente)
 };

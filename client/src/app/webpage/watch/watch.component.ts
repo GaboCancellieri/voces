@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Show } from 'src/app/schemas/show';
 import { EntradaService } from 'src/app/services/entradas.service';
@@ -11,11 +12,7 @@ import Swal from 'sweetalert2/src/sweetalert2.js';
   styleUrls: ['./watch.component.scss']
 })
 export class WatchComponent implements OnInit {
-    // TMF6ibuPHb
-    model: any = {
-      email: 'cancellieri.gabriel@gmail.com',
-      codigo: 'TMF6ibuPHb'
-    };
+    model: any = {};
     show: Show;
     verShow = false;
 
@@ -27,19 +24,54 @@ export class WatchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getShow();
-    // this.save();
+    this.verificarRuta();
   }
 
-  getShow() {
+  verificarRuta() {
     this.route.params.subscribe((params: any) => {
-        this.showsService.findOne(params.idShow).subscribe((show) => {
-            this.show = show;
-        });
+      this.getShow(params.idShow, params.email, params.codigo);
     });
   }
 
+  getShow(idShow: string, email: string, codigo: string) {
+    this.showsService.findOne(idShow).subscribe((show) => {
+        this.show = show;
+        if (show.estado.nombre !== 'Gratis') {
+          this.linkDirecto(email, codigo);
+        } else {
+          this.verShow = true;
+        }
+        if (!this.show.link) {
+          Swal.fire({
+            title: 'No estamos listos',
+            text: `El show no está listo todavía, puede probar en unos minutos`,
+            imageUrl: 'https://cdn3.iconfinder.com/data/icons/shopping-icons-14/128/18_Closed_Sign-256.png',
+            imageHeight: 90,
+            imageAlt: 'entrada',
+            confirmButtonColor: '#FC01A0',
+          });
+          this.goToHome();
+        }
+    });
+  }
+
+  linkDirecto(email, codigo) {
+    console.log(email);
+    console.log(codigo);
+    if (email && codigo) {
+      this.model.email = email;
+      this.model.codigo = codigo;
+      this.verificarEntrada();
+    }
+  }
+
+  goToHome() {
+    this.router.navigate(['/streaming']);
+  }
+
   verificarEntrada() {
+      this.model.email = this.model.email.trim().toLowerCase();
+      this.model.codigo = this.model.codigo.trim();
       const mailValido = this.validarMail();
       if (mailValido) {
         this.entradaService.verificar(this.show._id, this.model.email, this.model.codigo).subscribe((entrada) => {

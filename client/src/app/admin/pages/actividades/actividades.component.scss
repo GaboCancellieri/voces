@@ -1,0 +1,19 @@
+input.form-control:read-only {
+  color: white !important;
+  background-color: #222 !important;
+}
+
+input.form-control:not(:read-only) {
+  color: #111 !important;
+  background-color: white !important;
+}
+
+textarea.form-control:read-only {
+  color: white !important;
+  background-color: #222 !important;
+}
+
+textarea.form-control:not(:read-only) {
+  color: #111 !important;
+  background-color: white !important;
+}

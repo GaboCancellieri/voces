@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ImagenesService } from 'src/app/services/imagenes.service';
 
 @Component({
   selector: 'app-menu-web',
@@ -8,12 +9,21 @@ import { Router } from '@angular/router';
 })
 export class MenuWebComponent implements OnInit {
 
+  anuncios = [];
+
   constructor(
-    private router: Router
+    private router: Router,
+    private imagenesService: ImagenesService,
   ) {}
 
   ngOnInit(): void {
+    this.getAnuncios();
+  }
 
+  getAnuncios(): void {
+    this.imagenesService.getImagenesTipo('anuncio').subscribe((anuncios) => {
+      this.anuncios = anuncios;
+    });
   }
 
   getRutaContacto(){

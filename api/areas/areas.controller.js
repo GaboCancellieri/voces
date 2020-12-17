@@ -1,4 +1,5 @@
 'use strict';
+var fs = require('fs')
 var mongoose = require('mongoose'),
 Area = mongoose.model('Area');
 
@@ -36,11 +37,25 @@ exports.updateArea = (req, res) => {
 };
 
 exports.deleteArea = (req, res) => {
-  Area.remove({
-    _id: req.params.idArea
-  }, (err, area) => {
-    if (err)
-      res.send(err);
-    res.json(area);
-  });
+  const idArea = req.params.idArea;
+  Area.findOne({ _id: idArea }, (err, area) => {
+    if (err) {
+      res.send(err)
+    }
+    for (const image of area.imagenes) {
+      fs.unlink(`./dist/assets/img/areas/${image}`, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      });
+    }
+    Area.remove({
+      _id: idArea
+    }, (err, area) => {
+      if (err)
+        res.send(err);
+      res.json(area);
+    });
+  })
 };

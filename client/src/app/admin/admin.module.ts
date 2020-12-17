@@ -1,6 +1,7 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeAR from '@angular/common/locales/es-AR';
+import { PipesModule } from '../pipes/pipes.module';
 
 registerLocaleData(localeAR);
 
@@ -17,6 +18,8 @@ import { GaleriaAdminComponent } from './pages/galeria/galeria.component';
 import { StreamingAdminComponent } from './pages/streaming/streaming.component';
 import { ShowDetalleAdminComponent } from './pages/streaming/show-detalle/show-detalle.component';
 import { ContactoAdminComponent } from './pages/contacto/contacto.component';
+import { NovedadesAdminComponent } from './pages/novedades/novedades.component';
+import { GeneradorEntradaComponent } from './pages/generarEntrada/generadorEntrada.component';
 
 // NGPRIME
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -36,6 +39,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {TooltipModule} from 'primeng/tooltip';
 import {DialogModule} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
+import {FileUploadModule} from 'primeng/fileupload';
 
 @NgModule({
   imports: [
@@ -58,6 +62,8 @@ import {DropdownModule} from 'primeng/dropdown';
     TooltipModule,
     DialogModule,
     DropdownModule,
+    FileUploadModule,
+    PipesModule,
   ],
   declarations: [
     AdminComponent,
@@ -70,6 +76,8 @@ import {DropdownModule} from 'primeng/dropdown';
     StreamingAdminComponent,
     ContactoAdminComponent,
     ShowDetalleAdminComponent,
+    NovedadesAdminComponent,
+    GeneradorEntradaComponent,
   ],
   providers: [{provide: LOCALE_ID, useValue: 'es-AR'}, MessageService, ConfirmationService, ],
   bootstrap: [AdminComponent]

@@ -22,7 +22,7 @@
                         <span class="focus-input100"></span>
                     </div>
                     <div class="mt-4 container-login100-form-btn">
-                        <button class="login100-form-btn" (click)="verificarEntrada()">
+                        <button class="login100-form-btn" (click)="verificarEntrada()" [disabled]="!model.email || !model.codigo">
                             Entrar al show
                         </button>
                     </div>
@@ -32,11 +32,11 @@
     </ng-container>
     <ng-container *ngIf="verShow">
         <div class="container-login100 d-flex justify-content-center">
-            <div id="rectangle"></div>
-            <iframe class="video" [src]="show.link + '?iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1' | safe" allowtransparency  width="560" height="315" frameborder="0" scrolling="no" id="iframe"></iframe>
+            <div id="rectangleTop"></div>
+            <iframe class="video" click="onPlayVideo()" [src]="show.link + '?rel=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=0&amp;showinfo=0&amp;autoplay=1&amp;mute=0&amp;enablejsapi=1' | safe" allowtransparency  width="560" height="315" frameborder="0" scrolling="no" id="iframe"></iframe>
         </div>
     </ng-container>
-</ng-container>    
+</ng-container>
 
 
 

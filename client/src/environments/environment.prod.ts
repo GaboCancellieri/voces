@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: `${location.protocol}//${location.hostname}:3000`
+  // apiUrl: `https://www.escuelavoces.com:8443`
 };

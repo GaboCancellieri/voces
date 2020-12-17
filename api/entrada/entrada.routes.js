@@ -3,15 +3,15 @@ module.exports = function(app) {
   var entradas = require('./entrada.controller');
 
   // Entrada Routes
-  app.route('/entradas')
+  app.route('/api/entradas')
     .get(entradas.getEntradas)
     .post(entradas.createEntrada)
 
-  app.route('/entradas/:idEntrada')
+  app.route('/api/entradas/:idEntrada')
     .get(entradas.getEntrada)
     .patch(entradas.updateEntrada)
     .delete(entradas.deleteEntrada)
 
-  app.route('/verificar/entrada/:idShow')
+  app.route('/api/verificar/entrada/:idShow')
   .get(entradas.verificarEntrada)
 };

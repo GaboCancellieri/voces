@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var CompraSchema = new Schema({
     fecha: { type: Date, default: true },
     monto: { type: Number, default: true },
-    idShow: { 
+    show: { 
         id: String,
         nombre: String,
     },
@@ -15,9 +15,19 @@ var CompraSchema = new Schema({
         apellido: String,
         email: String,
     },
-    entradas: [{
-        id: String,
+    resultado: {
+        idOrden: String,
+        idPago: String,
+        tipoPago: String,
+        idSitio: String,
+        estado: String,
+    },
+    entradasCompradas: [{
+        nombre: String,
+        apellido: String,
         email: String,
+        inicio: Date,
+        fin: Date,
     }]
 });
 

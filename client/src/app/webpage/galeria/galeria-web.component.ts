@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Album } from 'src/app/schemas/album';
+import { AlbumService } from 'src/app/services/album.service';
 
 @Component({
   selector: 'app-galeria-web',
@@ -7,8 +9,57 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GaleriaWebComponent implements OnInit {
 
-  ngOnInit(): void {
+  albums: Album[];
+  auxAlbums: Album[];
+  selectedAlbum = null;
+  images = [];
+  responsiveOptions: any[] = [
+    {
+        breakpoint: '1024px',
+        numVisible: 5
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 3
+    },
+    {
+        breakpoint: '560px',
+        numVisible: 1
+    }
+  ];
+  constructor(
+    private albumsService: AlbumService,
+  ) {}
 
+  ngOnInit(): void {
+    this.getAlbums();
+  }
+
+  getAlbums() {
+    this.albumsService.findAll().subscribe((albums) => {
+      this.albums = albums;
+      this.auxAlbums = Object.assign(albums);
+    });
+  }
+
+  selectAlbum(album) {
+    this.albums = this.albums.filter( a => a._id !== album._id);
+    this.images = [];
+    this.selectedAlbum = album;
+    for (const imagen of album.imagenes) {
+      this.images.push({
+        previewImageSrc: '../../../assets/img/galeria/' + imagen,
+        thumbnailImageSrc: '../../../assets/img/galeria/' + imagen,
+        alt: '',
+        title: ''
+      });
+    }
+  }
+
+  unselectAlbum() {
+    this.albums = Object.assign(this.auxAlbums);
+    this.selectedAlbum = null;
+    this.images = [];
   }
 
   openGallery(id) {
