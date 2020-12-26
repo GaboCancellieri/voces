@@ -1,8 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {Location} from '@angular/common';
-import * as moment from 'moment';
-import Swal from 'sweetalert2';
 import { Compra } from 'src/app/schemas/compra';
 import { CompraService } from 'src/app/services/compra.service';
 import { EntradaService } from 'src/app/services/entradas.service';
@@ -30,7 +27,15 @@ export class ResultadoCompraComponent implements OnInit {
       this.route.params.subscribe((params) => {
         const idCompra = params.idCompra;
         this.compraservice.findOne(idCompra).subscribe((compra) => {
-          this.getResultado(compra);
+          if (!compra || !compra._id) {
+            this.volver();
+          } else {
+            if (!compra.resultado) {
+              this.getResultado(compra);
+            } else {
+              this.estado = compra.resultado.estado;
+            }
+          }
         });
       });
     }
@@ -52,6 +57,8 @@ export class ResultadoCompraComponent implements OnInit {
           });
         } else if (params.status === 'pending') {
           this.compraservice.update(compra._id, compra).subscribe((compraActualizada) => {});
+        } else if (params.status === 'null') {
+          this.compraservice.delete(compra._id).subscribe((compraActualizada) => {});
         }
       });
     }

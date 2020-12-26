@@ -25,6 +25,9 @@ exports.getCompra = (req, res) => {
   Compra.findById(req.params.idCompra, (err, compra) => {
     if (err)
       res.send(err);
+    if (!compra) {
+      compra = {};
+    }
     res.json(compra);
   });
 };
@@ -49,10 +52,10 @@ exports.deleteCompra = (req, res) => {
 
 // MERCADO PAGO
 // const access_token = 'TEST-8932391820207899-112819-021c1ec9b45f7867a062a0f2175f608e-45105333'
-const access_token = 'APP_USR-8932391820207899-112819-8a728316fef6e69c537add3b394cf27d-45105333'
+// const access_token = 'APP_USR-8932391820207899-112819-8a728316fef6e69c537add3b394cf27d-45105333'
 
 // TOKEN PRUEBA
-// const access_token = 'APP_USR-1020300565332165-121711-262f846652102cc8b313d906b029c014-689358796'
+const access_token = 'APP_USR-1020300565332165-121711-262f846652102cc8b313d906b029c014-689358796'
 
 exports.getIdentificationTypes = async (req, res) => {
   const result = await axios.get('https://api.mercadopago.com/v1/identification_types', {
@@ -117,9 +120,12 @@ exports.crearPreferencia = async (req, res) => {
       }
     ],
     back_urls: {
-      success: `https://www.escuelavoces.com/streaming/compra/${req.body.idCompra}/success`,
-      failure: `https://www.escuelavoces.com/streaming/compra/${req.body.idCompra}/failure`,
-      pending: `https://www.escuelavoces.com/streaming/compra/${req.body.idCompra}/pending`
+      success: `http://localhost:4200/streaming/compra/${req.body.idCompra}/success`,
+      failure: `http://localhost:4200/streaming/compra/${req.body.idCompra}/failure`,
+      pending: `http://localhost:4200/streaming/compra/${req.body.idCompra}/pending`
+      // success: `https://www.escuelavoces.com/streaming/compra/${req.body.idCompra}/success`,
+      // failure: `https://www.escuelavoces.com/streaming/compra/${req.body.idCompra}/failure`,
+      // pending: `https://www.escuelavoces.com/streaming/compra/${req.body.idCompra}/pending`
     },
     auto_return: "approved",
   };

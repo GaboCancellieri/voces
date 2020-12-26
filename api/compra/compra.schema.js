@@ -23,6 +23,7 @@ var CompraSchema = new Schema({
         estado: String,
     },
     entradasCompradas: [{
+        idShow: String,
         nombre: String,
         apellido: String,
         email: String,

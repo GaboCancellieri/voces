@@ -66,7 +66,7 @@ exports.verificarEntrada = async (req, res) => {
   const email = req.query.email;
   const codigo = req.query.codigo;
   const now = moment().toDate()
-  Entrada.find({ idShow, email, 'inicio': {$lte: now}, 'fin': {$gte: now}, activa: true }, async (err, entradas) => {
+  Entrada.find({ idShow, email, activa: true }, async (err, entradas) => {
     if (err)
       res.send(err);
     if (!entradas || entradas.length < 1) {
@@ -83,7 +83,23 @@ exports.verificarEntrada = async (req, res) => {
       const hash = entrada.clave;
       const result = await bcrypt.compare(codigo, hash);
       if (result) {
-        entradaBuscada = entrada;
+        if (moment(now).isAfter(entrada.inicio) && moment(now).isAfter(entrada.fin)) {
+          return res.status(400).json({ 
+            imageUrl: 'https://cdn2.iconfinder.com/data/icons/xomo-basics/128/document-09-256.png',
+            imageHeight: 90,
+            title: 'Entrada vencida',
+            message: `La entrada que desea utilizar se ha vencido. Estuvo disponible desde el ${entrada.inicio} hasta el ${entrada.fin}. Contáctenos para más información.`
+          });
+        } else if (moment(now).isBefore(entrada.inicio) && moment(now).isBefore(entrada.fin)) {
+          return res.status(400).json({ 
+            imageUrl: 'https://cdn1.iconfinder.com/data/icons/ecommerce-61/48/eccomerce_-_sign_close-256.png',
+            imageHeight: 90,
+            title: 'No comenzó el show',
+            message: `Aún no comenzó el show, puede utilizar esta entrada a partir del día: ${entrada.inicio}.`
+          });
+        } else if (moment(now).isSameOrAfter(entrada.inicio) && moment(now).isSameOrBefore(entrada.fin)) {
+          entradaBuscada = entrada;
+        }
       }
     }
     if (entradaBuscada) {

@@ -29,7 +29,15 @@ export class WatchComponent implements OnInit {
 
   verificarRuta() {
     this.route.params.subscribe((params: any) => {
-      this.getShow(params.idShow, params.email, params.codigo);
+      if (params.idShow !== 'undefined') {
+        console.log(params.idShow);
+        this.getShow(params.idShow, params.email, params.codigo);
+      } else {
+        this.entradaService.buscarEntradas(params.email).subscribe((entradas) => {
+          console.log(entradas);
+          this.getShow((entradas[0].idShow as any)._id, params.email, params.codigo);
+        });
+      }
     });
   }
 
@@ -44,8 +52,8 @@ export class WatchComponent implements OnInit {
         if (!this.show.link) {
           Swal.fire({
             title: 'No estamos listos',
-            text: `El show no está listo todavía, puede probar en unos minutos`,
-            imageUrl: 'https://cdn3.iconfinder.com/data/icons/shopping-icons-14/128/18_Closed_Sign-256.png',
+            text: `El show no está listo todavía, vuelva a probar en unos minutos`,
+            imageUrl: 'https://cdn3.iconfinder.com/data/icons/entertainment-25/48/theatre_stage-256.png',
             imageHeight: 90,
             imageAlt: 'entrada',
             confirmButtonColor: '#FC01A0',

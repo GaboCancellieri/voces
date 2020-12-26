@@ -11,7 +11,7 @@
           <!-- fieldsets -->
           <div class="card" style="width: 60rem;">
             <div class="card-body">
-              <ng-container *ngIf="estado === 'approved'; else pendiente">
+              <ng-container *ngIf="estado === 'approved'">
                 <div class="row">
                   <div class="col" style="text-align: center;">
                     <img src="https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/792/Tick_Mark_Dark-256.png" alt="success">
@@ -20,7 +20,7 @@
                 </div>
               </div>
               </ng-container>
-              <ng-template #pendiente>
+              <ng-container *ngIf="estado === 'in_process'">
                 <div class="row">
                   <div class="col" style="text-align: center;">
                     <img src="https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_48-256.png" alt="warning">
@@ -28,7 +28,16 @@
                     <p>Su pago ha quedado pendiente, comuníquese con nosotros y le enviaremos las entradas cuando el pago esté aprobado.</p>
                 </div>
               </div>
-              </ng-template>
+              </ng-container>
+              <ng-container *ngIf="estado === 'null'">
+                <div class="row">
+                  <div class="col" style="text-align: center;">
+                    <img src="https://cdn2.iconfinder.com/data/icons/humano2/128x128/status/dialog-error.png" alt="warning">
+                    <h2 style="color: red;">COMPRA CANCELADA</h2>
+                    <p>Su pago no se ha completado, por lo tanto, la compra queda cancelada. Vuelva a intentar.</p>
+                </div>
+              </div>
+              </ng-container>
               <div class="row d-flex justify-content-center">
                 <button class="btn btn-dark" style="background-color: #FC01A0;" (click)="volver()">Volver</button>
               </div>

@@ -21,9 +21,11 @@ exports.createShow = (req, res) => {
 
 exports.getShow = (req, res) => {
   Show.findById(req.params.idShow, (err, show) => {
-    if (err)
+    if (err) {
       res.send(err);
-    res.json(show);
+    } else {
+      res.json(show);
+    }
   });
 };
 
