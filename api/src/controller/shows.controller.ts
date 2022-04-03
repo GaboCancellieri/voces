@@ -14,6 +14,7 @@ export const createShow = async (req: Request, res: Response) => {
   try {
     var new_show = new Show(req.body);
     const show = await new_show.save();
+    res.json(show);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
