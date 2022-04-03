@@ -7,8 +7,7 @@
     "start": "node ./dist/server.js",
     "ts": "tsc",
     "dev-ts": "tsc -w",
-    "dev": "nodemon --exec \"prettier --config .prettierrc 'src/**/*.ts' --write && node ./dist/server.js\"",
-    "lint": "eslint --ext .js,.ts",
+    "dev": "nodemon ./dist/server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
