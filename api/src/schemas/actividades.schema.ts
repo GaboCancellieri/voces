@@ -22,13 +22,13 @@ export interface IActividad {
 
 const Horario = new Schema({
   dia: { type: String },
-  hora: { type: String }
+  hora: { type: String },
 });
 
 const Precio = new Schema({
   descripcion: { type: String },
   inscripcion: { type: Number },
-  cuotaMensual: { type: Number }
+  cuotaMensual: { type: Number },
 });
 
 const ActividadSchema = new Schema({
@@ -36,8 +36,8 @@ const ActividadSchema = new Schema({
   edad: { type: String, required: true },
   cupo: { type: String, required: true },
   duracion: { type: String, required: true },
-  horarios: { type: Horario, required: true },
-  precios: { type: Precio, required: true }
+  horarios: { type: [Horario], required: true },
+  precios: { type: [Precio], required: true },
 });
 
 export const Actividad = model<IActividad>(
