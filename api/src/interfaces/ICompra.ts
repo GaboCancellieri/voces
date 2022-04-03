@@ -1,29 +1,29 @@
 export interface ICompra {
   fecha: Date;
-  monto: Number;
+  monto: number;
   show: {
-    id: String;
-    nombre: String;
+    id: string;
+    nombre: string;
   };
   cliente: {
-    id: String;
-    nombre: String;
-    apellido: String;
-    email: String;
+    id: string;
+    nombre: string;
+    apellido: string;
+    email: string;
   };
   resultado: {
-    idOrden: String;
-    idPago: String;
-    tipoPago: String;
-    idSitio: String;
-    estado: String;
+    idOrden: string;
+    idPago: string;
+    tipoPago: string;
+    idSitio: string;
+    estado: string;
   };
   entradasCompradas: [
     {
-      idShow: String;
-      nombre: String;
-      apellido: String;
-      email: String;
+      idShow: string;
+      nombre: string;
+      apellido: string;
+      email: string;
       inicio: Date;
       fin: Date;
     }

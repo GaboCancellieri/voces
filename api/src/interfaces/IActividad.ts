@@ -16,4 +16,5 @@ export interface IActividad {
       cuotaMensual: Number;
     }
   ];
+  imagen: string;
 }

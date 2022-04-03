@@ -19,6 +19,7 @@ const ActividadSchema = new Schema({
   duracion: { type: String, required: true },
   horarios: { type: [Horario], required: true },
   precios: { type: [Precio], required: true },
+  imagen: { type: String, required: true },
 });
 
 export const Actividad = model<IActividad>(

@@ -1,8 +1,8 @@
 export interface ICliente {
-  nombre: String;
-  apellido: String;
-  email: String;
-  password: String;
-  validado: Boolean;
-  codigo: String;
+  nombre: string;
+  apellido: string;
+  email: string;
+  password: string;
+  validado: boolean;
+  codigo: string;
 }
