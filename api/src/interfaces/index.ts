@@ -9,3 +9,4 @@ export { IImagen } from './IImagen';
 export { IInstitucional } from './IInstitucional';
 export { IShow } from './IShow';
 export { IUsuario } from './IUsuario';
+export { IUsuarioWithOutPass } from './IUsuarioWithOutPass';
