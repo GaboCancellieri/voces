@@ -1,13 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IEquipoDocente {
-  nombre: String;
-  apellido: String;
-  rol: String;
-  biografia: String;
-  imagen: { data: Buffer; contentType: String };
-  esDirectora: Boolean;
-}
+import { IEquipoDocente } from '../interfaces';
 
 const EquipoDocenteSchema = new Schema({
   nombre: { type: String, required: true },

@@ -1,11 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IUsuario {
-  firstName: string;
-  lastName: string;
-  username: string;
-  password: string;
-}
+import { IUsuario } from '../interfaces';
 
 const UsuarioSchema = new Schema({
   firstName: { type: String, required: true },

@@ -1,9 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IImagen {
-  tipo: string;
-  imagen: string;
-}
+import { IImagen } from '../interfaces';
 
 const ImagenSchema = new Schema({
   tipo: { type: String, required: true },

@@ -1,10 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IArea {
-  nombre: string;
-  descripcion: string;
-  imagenes: string;
-}
+import { IArea } from '../interfaces';
 
 const AreaSchema = new Schema({
   nombre: { type: String, required: true },

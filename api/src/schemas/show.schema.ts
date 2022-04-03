@@ -1,21 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IShow {
-  nombre: string;
-  precio: number;
-  descripcion: string;
-  repertorio: string;
-  imagen: string;
-  link: string;
-  fechaInicioEstreno: Date;
-  fechaFinEstreno: Date;
-  estado: {
-    nombre: string;
-    fecha: Date;
-    color: string;
-    icono: string;
-  };
-}
+import { IShow } from '../interfaces';
 
 const Estado = new Schema({
   nombre: { type: String },

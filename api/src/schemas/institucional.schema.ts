@@ -1,9 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IInstitucional {
-  historia: string;
-  proyecto: string;
-}
+import { IInstitucional } from '../interfaces';
 
 const InstitucionalSchema = new Schema({
   historia: { type: String, required: true },

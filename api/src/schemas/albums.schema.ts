@@ -1,10 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IAlbum {
-  titulo: string;
-  descripcion: string;
-  imagenes: string;
-}
+import { IAlbum } from '../interfaces';
 
 const AlbumSchema = new Schema({
   titulo: { type: String, required: true },

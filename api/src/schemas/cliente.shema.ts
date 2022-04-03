@@ -1,13 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IClient {
-  nombre: String;
-  apellido: String;
-  email: String;
-  password: String;
-  validado: Boolean;
-  codigo: String;
-}
+import { ICliente } from '../interfaces';
 
 const ClientSchema = new Schema({
   nombre: { type: String, required: true },
@@ -18,4 +10,4 @@ const ClientSchema = new Schema({
   codigo: { type: String, required: true },
 });
 
-export const Client = model<IClient>('Client', ClientSchema, 'client');
+export const Cliente = model<ICliente>('Client', ClientSchema, 'client');

@@ -1,0 +1,11 @@
+export { Actividad } from './actividades.schema';
+export { Album } from './albums.schema';
+export { Area } from './areas.shema';
+export { Cliente } from './cliente.shema';
+export { Compra } from './compra.schema';
+export { Entrada } from './entrada.schema';
+export { EquipoDocente } from './equipoDocente.schema';
+export { Imagen } from './imagenes.schema';
+export { Institucional } from './institucional.schema';
+export { Show } from './show.schema';
+export { Usuario } from './user.schema';

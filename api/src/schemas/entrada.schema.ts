@@ -1,15 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IEntrada {
-  nombre: string;
-  apellido: string;
-  email: string;
-  activa: boolean;
-  inicio: Date;
-  fin: Date;
-  clave: string;
-  idShow: string;
-}
+import { IEntrada } from '../interfaces';
 
 const EntradaSchema = new Schema({
   nombre: { type: String, required: true },

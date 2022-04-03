@@ -1,0 +1,11 @@
+export { IActividad } from './IActividad';
+export { IAlbum } from './IAlbum';
+export { IArea } from './IArea';
+export { ICliente } from './ICliente';
+export { ICompra } from './ICompra';
+export { IEntrada } from './IEntrada';
+export { IEquipoDocente } from './IEquipoDocente';
+export { IImagen } from './IImagen';
+export { IInstitucional } from './IInstitucional';
+export { IShow } from './IShow';
+export { IUsuario } from './IUsuario';

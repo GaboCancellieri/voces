@@ -1,24 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-export interface IActividad {
-  nombre: string;
-  edad: string;
-  cupo: string;
-  duracion: string;
-  horarios: [
-    {
-      dia: String;
-      hora: String;
-    }
-  ];
-  precios: [
-    {
-      descripcion: String;
-      inscripcion: Number;
-      cuotaMensual: Number;
-    }
-  ];
-}
+import { IActividad } from '../interfaces';
 
 const Horario = new Schema({
   dia: { type: String },
