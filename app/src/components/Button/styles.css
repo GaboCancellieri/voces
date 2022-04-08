@@ -1,0 +1,19 @@
+.buttonContainer {
+  align-items: center;
+  background-color: #F50E9D !important;
+  justify-content: center;
+  height: 50;
+  margin-top: 5;
+}
+.primary {
+  background-color: #F50E9D !important;
+  border-color: #F50E9D !important;
+  border-radius: 8 !important;
+  border-width: 1 !important;
+}
+.secondary {
+  background-color: #71C8D0 !important;
+  border-color: #71C8D0 !important;
+  border-radius: 8 !important;
+  border-width: 1 !important;
+}
