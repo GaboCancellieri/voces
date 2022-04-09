@@ -10,13 +10,15 @@ interface Props {
   onClick: () => void;
   text: string;
   textSize?: number;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'clicked';
 }
 
 const buttonTextColors = {
   primary: colors.mainBlack,
   secondary: colors.mainBlack,
+  clicked: colors.secondaryPink,
 };
+
 const Button = ({
   additionalStyle = {},
   onClick,

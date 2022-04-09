@@ -4,16 +4,17 @@
   justify-content: center;
   height: 50;
   margin-top: 5;
+  border-radius: 5px;
 }
 .primary {
-  background-color: #F50E9D !important;
-  border-color: #F50E9D !important;
-  border-radius: 8 !important;
-  border-width: 1 !important;
+  color: #F50E9D !important;
+  border: 0;
 }
 .secondary {
-  background-color: #71C8D0 !important;
-  border-color: #71C8D0 !important;
-  border-radius: 8 !important;
-  border-width: 1 !important;
+  color: #71C8D0 !important;
+  border: 0;
+}
+.clicked {
+  color: #63093C !important;
+  border: 0;
 }
