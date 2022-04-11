@@ -4,4 +4,5 @@ export const colors = {
   mainBlack: '#010010',
   mainLightBlue: '#71C8D0',
   mainGray: '#CFD8DC',
+  mainWhite: '#FFFFFF',
 };

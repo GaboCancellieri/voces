@@ -19,7 +19,7 @@ dotenv.config();
 class Server {
   public app: express.Application;
   public host: string = process.env.HOST || '0.0.0.0';
-  public port: string = process.env.PORT || '3000';
+  public port: string = process.env.PORT || '3001';
 
   constructor() {
     /* Inicializaciones esenciales como conexiones con la DB, 
@@ -45,7 +45,7 @@ class Server {
     this.app.use(express.json());
     this.app.use(
       express.urlencoded({
-        extended: false
+        extended: false,
       })
     );
     this.app.use(helmet());
@@ -87,7 +87,7 @@ class Server {
         .createServer(
           {
             key: fs.readFileSync('cadenacampoargentino.com.key.pem'),
-            cert: fs.readFileSync('cadenacampoargentino.com.pem')
+            cert: fs.readFileSync('cadenacampoargentino.com.pem'),
           },
           this.app
         )
